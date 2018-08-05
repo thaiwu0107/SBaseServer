@@ -1,5 +1,5 @@
 {
-    "name": "@thaiwu/base-server",
+    "name": "@ggttoo44/base-server",
     "version": "0.0.1",
     "description": "API Server used TypeScript",
     "main": "./lib/index.js",
