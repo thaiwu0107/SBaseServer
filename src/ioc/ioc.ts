@@ -10,4 +10,11 @@ const provideNamed = (identifier, name) => {
         .whenTargetNamed(name)
         .done(true);
 };
+
+const provideSocket = (identifier, name) => {
+    return fluentProvide(identifier)
+        .inSingletonScope()
+        .whenTargetNamed(name)
+        .done(true);
+};
 export { container, autoProvide, provide, provideNamed, inject };
