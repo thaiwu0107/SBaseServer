@@ -1,0 +1,44 @@
+{
+    "compilerOptions": {
+        "target": "es2017",
+        "module": "commonjs",
+        "lib": [
+            "dom",
+            "es5",
+            "es6",
+            "es2017"
+        ],
+        "declaration": true, /* Generates corresponding '.d.ts' file. */
+        "outDir": "./lib",
+        "strictPropertyInitialization": false,
+        "removeComments": false,
+        "strict": true,
+        "noImplicitAny": false,
+        "strictNullChecks": true,
+        "alwaysStrict": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "moduleResolution": "node",
+        "typeRoots": [
+            "node_modules/@types"
+        ],
+        "types": [
+            "mocha",
+            "node",
+            "reflect-metadata"
+        ],
+        "sourceRoot": "./src",
+        "inlineSourceMap": true,
+        "inlineSources": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "dist",
+        "test",
+        "e2e"
+    ]
+}
