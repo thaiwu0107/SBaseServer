@@ -24,6 +24,7 @@ import HttpInitSetting from './models/HttpInitSetting';
 import IBaseContext from './models/IBaseContext';
 import { LibsExceptions } from './models/LibsExceptions';
 import NotImplemented from './models/NotImplemented';
+import SocketInitSetting from './models/SocketInitSetting';
 import Transaction from './models/Transaction';
 import IServerInitOnceEvent from './ServerEvent/ServerInitOnceEvent';
 import SServer from './SServer';
@@ -36,6 +37,7 @@ import WSServer from './WSServer';
 export {
     IServerInitOnceEvent,
     GServer,
+    SocketInitSetting,
     SServer,
     WSServer,
     HttpInitSetting,

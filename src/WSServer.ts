@@ -15,6 +15,7 @@ import IocTracer from './ioc/iocTracer';
 import koaLog4js from './middlewares/logger/log4js';
 import GamaResponse from './models/BaseResponse';
 import HttpInitSetting from './models/HttpInitSetting';
+import WebSocketContext from './models/WebSocketContext';
 import IServerInitOnceEvent from './ServerEvent/ServerInitOnceEvent';
 
 const log = log4js.getLogger('GServer');
@@ -53,14 +54,6 @@ export default class WSServer {
             }
         }
         // this.main = ORMContext.init(initSetting.pathdb, initSetting.pathBeansPath);
-        // caeate DB connection
-        // 還不會用到mq應該還不需要去讓他一直嘗試連線
-        // if (!_.isUndefined(mqSetting)) {
-        // this.main.then((result) => {
-        // tslint:disable-next-line:no-null-keyword
-        // return mq(null, mqSetting); // connect MQ Server
-        // });
-        // }
         this.main = Promise.resolve(1);
         this.main.then(() => {
             const rootRouter = new Router({
@@ -139,24 +132,15 @@ export default class WSServer {
                 });
             this.koaServer = server.build().listen(httpPort);
             this.wssServer = new WebSocket.Server({
-                server: this.koaServer
+                noServer: true
             });
-            this.wssServer.on('connection', (ws: any) => {
-                // ws.upgradeReq是一个request对象:
-                const user = ws;
-                // if (!user) {
-                //     // Cookie不存在或无效，直接关闭WebSocket:
-                //     ws.close(4001, 'Invalid user');
-                // }
-                // 识别成功，把user绑定到该WebSocket对象:
-                ws.user = user;
-                // 绑定WebSocketServer对象:
-                ws.wss = this.wssServer;
+            WebSocketContext.init(this.wssServer);
+            this.koaServer.on('upgrade', (request, socket, head) => {
+                this.wssServer.handleUpgrade(request, socket, head, (ws) => {
+                    this.wssServer.emit('connection', ws, request);
+                  });
             });
-            this.wssServer.on('open', function open() {
-                console.log('connected');
-              });
-            log.info('Http started listening on http://localhost:%s ...', httpPort);
+            log.info('WebSocket started listening on ws://localhost:%s ...', httpPort);
         })
             .catch((e) => {
                 log.error(e);
@@ -170,7 +154,6 @@ export default class WSServer {
                     element.end();
                 });
             }
-            return this.wssServer;
         });
     }
 }

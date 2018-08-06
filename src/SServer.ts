@@ -39,7 +39,7 @@ export default class SServer {
             const io = SocketIO(app);
             const server = new InversifySocketServer(container, io);
             this.socketServer = server.build().listen(httpPort);
-            log.info('Http started listening on http://localhost:%s ...', httpPort);
+            log.info('Socket.io started listening on http://localhost:%s ...', httpPort);
         })
             .catch((e) => {
                 log.error(e);
