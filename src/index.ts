@@ -34,7 +34,7 @@ import BaseDataHelper from './utils/BaseDataHelper';
 import BaseSQLHelper from './utils/BaseSQLHelper';
 import BaseUtils from './utils/BaseUtils';
 import { IQueryOptions } from './utils/DaoOperator';
-import WSServer from './WSServer';
+import { WSServer } from './WSServer';
 
 export {
     BaseSocketController,
