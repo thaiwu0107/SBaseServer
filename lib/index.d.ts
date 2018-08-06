@@ -30,5 +30,5 @@ import BaseDataHelper from './utils/BaseDataHelper';
 import BaseSQLHelper from './utils/BaseSQLHelper';
 import BaseUtils from './utils/BaseUtils';
 import { IQueryOptions } from './utils/DaoOperator';
-import WSServer from './WSServer';
+import { WSServer } from './WSServer';
 export { BaseSocketController, WebSocketManager, IServerInitOnceEvent, GServer, SocketInitSetting, SServer, WSServer, HttpInitSetting, BaseUtils, BaseSQLHelper, BaseDataHelper, Transaction, NotImplemented, LibsExceptions, ORMContext, BaseResponse, BaseUserInfo, BaseService, BaseRepository, BaseExceptions, BaseEntity, BaseController, DocChanged, Entity, AnyEntity, BaseHttpStatusCode, BaseConstant, SQLServerType, IBaseContext, IQueryOptions, container, autoProvide, provide, provideNamed, inject, controller, httpPost, httpPut, TYPE, validate, httpGet, httpMethod, httpPatch, httpHead, all, httpDelete, request, response, requestParam, queryParam, requestBody, requestHeaders, cookies, next };
