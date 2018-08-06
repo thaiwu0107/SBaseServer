@@ -9,6 +9,7 @@ import { BaseHttpStatusCode } from './config/BaseHttpStatusCode';
 import { SQLServerType } from './config/enum.SQLServerType';
 import GServer from './GServer';
 import { autoProvide, container, inject, provide, provideNamed } from './ioc/ioc';
+import WebSocketManager from './microServices/WebSocketManager';
 import { ORMContext } from './models';
 import AnyEntity from './models/AnyEntity';
 import BaseController from './models/BaseController';
@@ -35,6 +36,7 @@ import { IQueryOptions } from './utils/DaoOperator';
 import WSServer from './WSServer';
 
 export {
+    WebSocketManager,
     IServerInitOnceEvent,
     GServer,
     SocketInitSetting,
