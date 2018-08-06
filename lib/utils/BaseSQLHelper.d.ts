@@ -327,5 +327,7 @@ export default class BaseSQLHelper {
      * 目前底層ORM遇到的BUG處理方法
      * @memberof SQLHelper
      */
-    static BugFixUpdateSqlRepeatValue(obj: any): any;
+    static BugFixUpdateSqlRepeatValue(obj: any): {
+        [x: string]: any;
+    }[];
 }

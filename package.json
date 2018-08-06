@@ -12,9 +12,10 @@
         "clear": "rm -rf package-lock.json && rm -rf node_modules && npm cache clean -f && npm prune &&  npm install && npm run rebuild:context",
         "start:rebuild": "npm run clear && npm run start:live",
         "duplicated": "./node_modules/.bin/jscpd --config .cpd.yaml",
-        "preversion": "npm test",
+        "preversion": "npm test && npm run build",
         "version": "git add -A .",
-        "postversion": "git push && git push --tags"
+        "postversion": "git push && git push --tags",
+        "build": "rm -rf lib && ./node_modules/.bin/tsc && cp -r ./src/sqlTemplate/ ./lib/sqlTemplate/"
     },
     "keywords": [
         "RESTful",

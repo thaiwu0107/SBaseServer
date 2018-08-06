@@ -38,7 +38,7 @@ export default class BaseUtils {
      * @returns string
      * @memberof Utils
      */
-    static objToString(objs: any[]): any;
+    static objToString(objs: any[]): string;
     /**
      * memberId to MemberSerial And SectionSerial
      * @param string
@@ -46,8 +46,8 @@ export default class BaseUtils {
      * @memberof Utils
      */
     static MemberIdToMemberSerialAndSectionSerial(memberId: IString | string): {
-        memberSerial: any;
-        sectionSerial: any;
+        memberSerial: string;
+        sectionSerial: string;
     };
     /**
      * Validate string
@@ -87,21 +87,21 @@ export default class BaseUtils {
     static PDFHoursTimeFormat(time: Date | string): string;
     static TakeFirstOrEmpty(anyThing: any[]): any;
     static GetCheckSum(sASCIICardSerial: string): number;
-    static toASCIICodeArray(toASCII: string): any;
-    static toASCIICodeString(toASCII: string): any;
-    static fromASCIICodeArray(fromASCII: string[]): any;
-    static fromASCIICodeString(fromASCII: string): any;
-    static EncryptCard(card: string): any;
-    static DecryptCard(card: string): any;
-    static JoinArray(anyThing: any[]): any;
-    static EncryptAlgorithmCard(card: string): any;
-    static DecryptAlgorithmCard(card: string): any;
-    static EncryptOriginalCard(card: string): any;
-    static DecryptOriginalCard(card: string): any;
+    static toASCIICodeArray(toASCII: string): number[];
+    static toASCIICodeString(toASCII: string): string;
+    static fromASCIICodeArray(fromASCII: string[]): string[];
+    static fromASCIICodeString(fromASCII: string): string;
+    static EncryptCard(card: string): string;
+    static DecryptCard(card: string): string;
+    static JoinArray(anyThing: any[]): string;
+    static EncryptAlgorithmCard(card: string): string;
+    static DecryptAlgorithmCard(card: string): string;
+    static EncryptOriginalCard(card: string): string;
+    static DecryptOriginalCard(card: string): string;
     static getShortCardSerialPrintFormat(card: string, algorit?: boolean): string;
     static getLongCardSerialPrintFormat(card: string, algorit?: boolean): string;
     static CardSerialCheckSum(card: string): number;
-    static getMagneticStripeCode(card: string): any;
+    static getMagneticStripeCode(card: string): string;
     static dollarToCent(value: number | BigNumber): number;
     static centToDollar(value: number | BigNumber): number;
     /**

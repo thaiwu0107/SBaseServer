@@ -19,7 +19,7 @@ export default class BaseDataHelper {
     static MergeList(...aData: any[]): any;
     static Max(aData: any[], key: string): any;
     static Min(aData: any[], key: string): any;
-    static Sum(aData: any[], key: string): any;
+    static Sum(aData: any[], key: string): number;
     /**
      * 這個是取出相同的Key沒有的null
      * @param {any[]} aData 左
