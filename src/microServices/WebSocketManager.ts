@@ -7,7 +7,7 @@ const _log = log4js.getLogger('WebSocketManager');
 export default class WebSocketManager {
     protected _context: WebSocket.Server;
     constructor() {
-        this._context = WebSocketContext.getWebsocket();
+        this._context = WebSocketContext.getInstance().getWebsocket();
         this._context.on('connection', (ws, req, head) => {
             console.log(req.connection.remoteAddress);
         });
