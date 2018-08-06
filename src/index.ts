@@ -18,6 +18,7 @@ import BaseExceptions from './models/BaseExceptions';
 import BaseRepository from './models/BaseRepository';
 import BaseResponse from './models/BaseResponse';
 import BaseService from './models/BaseService';
+import BaseSocketController from './models/BaseSocketController';
 import BaseUserInfo from './models/BaseUserInfo';
 import Entity from './models/Decorators';
 import DocChanged from './models/DocChanged';
@@ -36,6 +37,7 @@ import { IQueryOptions } from './utils/DaoOperator';
 import WSServer from './WSServer';
 
 export {
+    BaseSocketController,
     WebSocketManager,
     IServerInitOnceEvent,
     GServer,
