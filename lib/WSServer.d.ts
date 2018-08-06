@@ -1,2 +1,1 @@
-import ClusterWS from 'clusterws';
-export declare const WSServer: ClusterWS;
+export declare function Worker(): void;

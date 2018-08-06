@@ -1,3 +1,4 @@
+import ClusterWS from 'clusterws';
 import { all, controller, cookies, httpDelete, httpGet, httpHead, httpMethod, httpPatch, httpPost, httpPut, next, queryParam, request, requestBody, requestHeaders, requestParam, response, TYPE } from 'inversify-koa-utils';
 import validate from 'koa-req-validator';
 import { BaseConstant } from './config/BaseConstant';
@@ -30,5 +31,5 @@ import BaseDataHelper from './utils/BaseDataHelper';
 import BaseSQLHelper from './utils/BaseSQLHelper';
 import BaseUtils from './utils/BaseUtils';
 import { IQueryOptions } from './utils/DaoOperator';
-import { WSServer } from './WSServer';
-export { BaseSocketController, WebSocketManager, IServerInitOnceEvent, GServer, SocketInitSetting, SServer, WSServer, HttpInitSetting, BaseUtils, BaseSQLHelper, BaseDataHelper, Transaction, NotImplemented, LibsExceptions, ORMContext, BaseResponse, BaseUserInfo, BaseService, BaseRepository, BaseExceptions, BaseEntity, BaseController, DocChanged, Entity, AnyEntity, BaseHttpStatusCode, BaseConstant, SQLServerType, IBaseContext, IQueryOptions, container, autoProvide, provide, provideNamed, inject, controller, httpPost, httpPut, TYPE, validate, httpGet, httpMethod, httpPatch, httpHead, all, httpDelete, request, response, requestParam, queryParam, requestBody, requestHeaders, cookies, next };
+import { Worker } from './WSServer';
+export { Worker, ClusterWS as WSServer, BaseSocketController, WebSocketManager, IServerInitOnceEvent, GServer, SocketInitSetting, SServer, HttpInitSetting, BaseUtils, BaseSQLHelper, BaseDataHelper, Transaction, NotImplemented, LibsExceptions, ORMContext, BaseResponse, BaseUserInfo, BaseService, BaseRepository, BaseExceptions, BaseEntity, BaseController, DocChanged, Entity, AnyEntity, BaseHttpStatusCode, BaseConstant, SQLServerType, IBaseContext, IQueryOptions, container, autoProvide, provide, provideNamed, inject, controller, httpPost, httpPut, TYPE, validate, httpGet, httpMethod, httpPatch, httpHead, all, httpDelete, request, response, requestParam, queryParam, requestBody, requestHeaders, cookies, next };

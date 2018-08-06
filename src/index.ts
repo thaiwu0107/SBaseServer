@@ -1,3 +1,4 @@
+import ClusterWS from 'clusterws';
 import {
     all, controller, cookies, httpDelete, httpGet, httpHead, httpMethod, httpPatch, httpPost,
     httpPut, next, queryParam, request, requestBody,
@@ -34,16 +35,17 @@ import BaseDataHelper from './utils/BaseDataHelper';
 import BaseSQLHelper from './utils/BaseSQLHelper';
 import BaseUtils from './utils/BaseUtils';
 import { IQueryOptions } from './utils/DaoOperator';
-import { WSServer } from './WSServer';
+import { Worker } from './WSServer';
 
 export {
+    Worker,
+    ClusterWS as WSServer,
     BaseSocketController,
     WebSocketManager,
     IServerInitOnceEvent,
     GServer,
     SocketInitSetting,
     SServer,
-    WSServer,
     HttpInitSetting,
     BaseUtils,
     BaseSQLHelper,
