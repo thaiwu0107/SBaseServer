@@ -1,19 +1,26 @@
 import * as Koa from 'koa';
 import * as jwt from 'koa-jwt';
 import * as log4js from 'koa-log4';
-import * as defConfig from './config/defconfig';
 import WebSocketContext from './models/WebSocketContext';
 
 const log = log4js.getLogger('WSServer');
+let privateKey;
+let active;
+let port;
+export function Init(_privateKey, _active, _port) {
+    privateKey = _privateKey;
+    active = _active;
+    port = _port;
+}
 export function Worker() {
     const wss = this.wss;
     const server = this.server;
     const app = new Koa();
-    app.use(jwt({ secret: defConfig.jwt.privateKey, passthrough: !defConfig.jwt.active }));
+    app.use(jwt({ secret: privateKey, passthrough: !active }));
     WebSocketContext.init(wss);
     server.on('request', app.callback());
     wss.on('connection', (socket) => {
         console.log('New socket is connected');
     });
-    log.info('WebSocket started listening on ws://localhost:%s ...', defConfig.wsPort);
+    log.info('WebSocket started listening on ws://localhost:%s ...', port);
 }

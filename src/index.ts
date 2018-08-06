@@ -35,10 +35,11 @@ import BaseDataHelper from './utils/BaseDataHelper';
 import BaseSQLHelper from './utils/BaseSQLHelper';
 import BaseUtils from './utils/BaseUtils';
 import { IQueryOptions } from './utils/DaoOperator';
-import { Worker } from './WSServer';
+import { Init, Worker } from './WSServer';
 
 export {
     Worker,
+    Init,
     ClusterWS as WSServer,
     BaseSocketController,
     WebSocketManager,
