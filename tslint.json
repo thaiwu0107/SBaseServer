@@ -11,6 +11,7 @@
     },
     "linterOptions": {
         "exclude": [
+            "src/WSServer.ts/",
             "src/config/",
             "src/context/MemberAckDao.ts",
             "src/context/**/*.ts",

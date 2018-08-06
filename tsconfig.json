@@ -8,12 +8,14 @@
             "es6",
             "es2017"
         ],
-        "declaration": true, /* Generates corresponding '.d.ts' file. */
+        "declaration": true,
+        /* Generates corresponding '.d.ts' file. */
         "outDir": "./lib",
         "strictPropertyInitialization": false,
         "removeComments": false,
         "strict": true,
         "noImplicitAny": false,
+        "noImplicitThis": false,
         "strictNullChecks": true,
         "alwaysStrict": true,
         "noImplicitReturns": true,

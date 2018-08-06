@@ -1,3 +1,4 @@
+import ClusterWS from 'clusterws';
 import { Server } from 'http';
 import { buildProviderModule } from 'inversify-binding-decorators';
 import { InversifyKoaServer } from 'inversify-koa-utils';
@@ -8,7 +9,6 @@ import * as log4js from 'koa-log4';
 import * as Router from 'koa-router';
 import * as cors from 'koa2-cors';
 import * as _ from 'lodash';
-import * as WebSocket from 'ws';
 import * as defConfig from './config/defconfig';
 import { container } from './ioc/ioc';
 import IocTracer from './ioc/iocTracer';
@@ -23,7 +23,7 @@ export default class WSServer {
     private main: Promise<any>;
     private serverInitOnceEvents: IServerInitOnceEvent[] | undefined;
     private koaServer: Server;
-    private wssServer: WebSocket.Server;
+    private wssServer: ClusterWS;
     constructor(initSetting: HttpInitSetting) {
         let middlewares;
         let domainName;
@@ -123,6 +123,10 @@ export default class WSServer {
                         .unless({
                             path: _.isUndefined(initSetting.unlessPath) ? [] : initSetting.unlessPath
                         }));
+                    this.wssServer = new ClusterWS({
+                        worker: Worker(app, httpPort),
+                        port: 3000
+                    } as any);
                 })
                 .setErrorConfig((app) => {
                     app.use((ctx, next) => {
@@ -130,17 +134,14 @@ export default class WSServer {
                         next();
                     });
                 });
-            this.koaServer = server.build().listen(httpPort);
-            this.wssServer = new WebSocket.Server({
-                noServer: true
-            });
-            WebSocketContext.init(this.wssServer);
-            this.koaServer.on('upgrade', (request, socket, head) => {
-                this.wssServer.handleUpgrade(request, socket, head, (ws) => {
-                    this.wssServer.emit('connection', ws, request);
-                });
-            });
-            log.info('WebSocket started listening on ws://localhost:%s ...', httpPort);
+            // this.koaServer = server.build().listen(httpPort);
+            // server.on('request', app.callback());
+            // this.koaServer.on('upgrade', (request, socket, head) => {
+            //     this.wssServer.handleUpgrade(request, socket, head, (ws) => {
+            //         this.wssServer.emit('connection', ws, request);
+            //     });
+            // });
+            // log.info('WebSocket started listening on ws://localhost:%s ...', httpPort);
         })
             .catch((e) => {
                 log.error(e);
@@ -156,4 +157,20 @@ export default class WSServer {
             }
         });
     }
+}
+// const clusterws = new ClusterWS({
+//     worker: Worker,
+//     port: 3000
+// });
+
+function Worker(app, httpPort) {
+    const wss = this.wss;
+    const server = this.server;
+    WebSocketContext.init(wss);
+    server.on('request', app.callback());
+
+    wss.on('connection', (socket) => {
+        console.log('New socket is connected');
+        log.info('WebSocket started listening on ws://localhost:%s ...', httpPort);
+    });
 }
