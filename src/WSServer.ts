@@ -138,7 +138,7 @@ export default class WSServer {
             this.koaServer.on('upgrade', (request, socket, head) => {
                 this.wssServer.handleUpgrade(request, socket, head, (ws) => {
                     this.wssServer.emit('connection', ws, request);
-                  });
+                });
             });
             log.info('WebSocket started listening on ws://localhost:%s ...', httpPort);
         })
@@ -147,7 +147,7 @@ export default class WSServer {
             });
     }
     public start() {
-        return Promise.resolve(this.main).then(() => {
+        return Promise.resolve(this.main.then()).then(() => {
             if (!_.isUndefined(this.serverInitOnceEvents) && _.size(this.serverInitOnceEvents) !== 0) {
                 _.forEach(this.serverInitOnceEvents, (element) => {
                     element.doOnce();
