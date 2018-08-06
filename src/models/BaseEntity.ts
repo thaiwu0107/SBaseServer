@@ -7,23 +7,23 @@ import { LibsExceptions } from './LibsExceptions';
 export default abstract class BaseEntity {
 
     protected abstract getList(): string[];
-    private gamaEntityDbName: string;
-    private gamaEntitytableName: string;
+    private baseEntityDbName: string;
+    private baseEntitytableName: string;
 
     public getGamaEntityDbName() {
-        return this.gamaEntityDbName;
+        return this.baseEntityDbName;
     }
 
     protected setGamaEntityDbName(name: string) {
-        this.gamaEntityDbName = name;
+        this.baseEntityDbName = name;
     }
 
     public getGamaEntitytableName() {
-        return this.gamaEntitytableName;
+        return this.baseEntitytableName;
     }
 
     protected setGamaEntitytableName(name: string) {
-        this.gamaEntitytableName = name;
+        this.baseEntitytableName = name;
     }
 
     /**

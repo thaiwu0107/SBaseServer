@@ -11,20 +11,5 @@ export default class WebSocketManager {
     protected _head: any;
     constructor() {
         this._context = WebSocketContext.getInstance().getWebsocket();
-        this._context.on('connection', (ws, req, head) => {
-            this._ows = ws;
-            this._req = req;
-            this._head = head;
-            console.log(req.connection.remoteAddress);
-            ws.on('open', () => {
-                console.log('connected');
-            });
-            ws.on('close', () => {
-                console.log('disconnected');
-            });
-            ws.on('message', (data) => {
-                console.log('message', data);
-            });
-        });
     }
 }
