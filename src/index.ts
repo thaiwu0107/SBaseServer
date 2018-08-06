@@ -26,14 +26,18 @@ import { LibsExceptions } from './models/LibsExceptions';
 import NotImplemented from './models/NotImplemented';
 import Transaction from './models/Transaction';
 import IServerInitOnceEvent from './ServerEvent/ServerInitOnceEvent';
+import SServer from './SServer';
 import BaseDataHelper from './utils/BaseDataHelper';
 import BaseSQLHelper from './utils/BaseSQLHelper';
 import BaseUtils from './utils/BaseUtils';
 import { IQueryOptions } from './utils/DaoOperator';
+import WSServer from './WSServer';
 
 export {
     IServerInitOnceEvent,
     GServer,
+    SServer,
+    WSServer,
     HttpInitSetting,
     BaseUtils,
     BaseSQLHelper,

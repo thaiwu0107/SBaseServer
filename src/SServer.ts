@@ -11,7 +11,6 @@ import * as defConfig from './config/defconfig';
 import { container } from './ioc/ioc';
 import IocTracer from './ioc/iocTracer';
 import koaLog4js from './middlewares/logger/log4js';
-import { ORMContext } from './models';
 import SocketInitSetting from './models/SocketInitSetting';
 import IServerInitOnceEvent from './ServerEvent/ServerInitOnceEvent';
 
@@ -33,7 +32,8 @@ export default class SServer {
                 iocTracer.apply(container);
             }
         }
-        this.main = ORMContext.init(initSetting.pathdb, initSetting.pathBeansPath);
+        // this.main = ORMContext.init(initSetting.pathdb, initSetting.pathBeansPath);
+        this.main = Promise.resolve(1);
         this.main.then(() => {
             const app = http.createServer();
             const io = SocketIO(app);
