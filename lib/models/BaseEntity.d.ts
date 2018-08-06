@@ -1,7 +1,7 @@
 export default abstract class BaseEntity {
     protected abstract getList(): string[];
-    private gamaEntityDbName;
-    private gamaEntitytableName;
+    private baseEntityDbName;
+    private baseEntitytableName;
     getGamaEntityDbName(): string;
     protected setGamaEntityDbName(name: string): void;
     getGamaEntitytableName(): string;
