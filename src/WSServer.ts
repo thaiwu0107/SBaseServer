@@ -2,7 +2,6 @@ import * as Koa from 'koa';
 import * as jwt from 'koa-jwt';
 import * as log4js from 'koa-log4';
 import koaLog4js from './middlewares/logger/log4js';
-import WebSocketContext from './models/WebSocketContext';
 
 const log = log4js.getLogger('WSServer');
 let privateKey;
@@ -20,6 +19,6 @@ export function Worker() {
     app.use(jwt({ secret: privateKey, passthrough: !active }));
     app.use(koaLog4js());
     server.on('request', app.callback());
-    WebSocketContext.init(wss);
+    // WebSocketContext.init(wss);
     log.info('WebSocket started listening on ws://localhost:%s ...', port);
 }
