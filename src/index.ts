@@ -10,7 +10,6 @@ import { BaseHttpStatusCode } from './config/BaseHttpStatusCode';
 import { SQLServerType } from './config/enum.SQLServerType';
 import GServer from './GServer';
 import { autoProvide, container, inject, provide, provideNamed } from './ioc/ioc';
-import WebSocketManager from './microServices/WebSocketManager';
 import { ORMContext } from './models';
 import AnyEntity from './models/AnyEntity';
 import BaseController from './models/BaseController';
@@ -21,7 +20,7 @@ import BaseResponse from './models/BaseResponse';
 import BaseService from './models/BaseService';
 import BaseSocketController from './models/BaseSocketController';
 import BaseUserInfo from './models/BaseUserInfo';
-import Entity from './models/Decorators';
+import {Entity} from './models/Decorators';
 import DocChanged from './models/DocChanged';
 import HttpInitSetting from './models/HttpInitSetting';
 import IBaseContext from './models/IBaseContext';
@@ -42,7 +41,6 @@ export {
     Init,
     ClusterWS as WSServer,
     BaseSocketController,
-    WebSocketManager,
     IServerInitOnceEvent,
     GServer,
     SocketInitSetting,
