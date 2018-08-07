@@ -1,9 +1,7 @@
+import * as log4js from 'koa-log4';
 import * as WebSocket from 'ws';
 
-// const heartbeat = () {
-//   this.isAlive = true;
-// }
-
+const _log = log4js.getLogger('WebSocketContext');
 export default class WebSocketContext {
     private static _instance = new WebSocketContext();
     public static getInstance(): WebSocketContext {
@@ -18,47 +16,17 @@ export default class WebSocketContext {
     public static init(websocket) {
       WebSocketContext._websocket = websocket;
       websocket.on('connection', (ws, req, head) => {
-        ws.isAlive = true;
-        // ws.on('pong', heartbeat);
         console.log(req.connection.remoteAddress);
-        ws.on('open', () => {
-            console.log('connected');
+        ws.on('disconnect', (code: number, reason: string): void => {
+            _log.info('disconnect');
         });
-        ws.on('close', () => {
-            console.log('disconnected');
-        });
-        ws.on('message', (data) => {
-            console.log('message', data);
-        });
-        ws.on('error', (err) => {
-            console.log('error', err);
+        ws.on('error', (err: Error) => {
+            _log.error('error', err);
             throw err;
         });
-    });
+      });
+      websocket.setMiddleware('onPublish', (channel: string, data: any): void => {
+        _log.info('data', data);
+      });
     }
-    // private heartbeat() {
-    //   this.isAlive = true;
-    // }
-    // public static init(websocket) {
-    //   WebSocketContext._websocket = websocket;
-    //   websocket.on('connection', (ws, req, head) => {
-    //     WebSocketContext._ows = ws;
-    //     WebSocketContext._req = req;
-    //     WebSocketContext._head = head;
-    //     console.log(req.connection.remoteAddress);
-    //     ws.on('open', () => {
-    //         console.log('connected');
-    //     });
-    //     ws.on('close', () => {
-    //         console.log('disconnected');
-    //     });
-    //     ws.on('message', (data) => {
-    //         console.log('message', data);
-    //     });
-    //     ws.on('error', (err) => {
-    //         console.log('error', err);
-    //         throw err;
-    //     });
-    // });
-    // }
 }

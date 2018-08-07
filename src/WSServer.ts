@@ -17,10 +17,7 @@ export function Worker() {
     const server = this.server;
     const app = new Koa();
     app.use(jwt({ secret: privateKey, passthrough: !active }));
-    WebSocketContext.init(wss);
     server.on('request', app.callback());
-    wss.on('connection', (socket) => {
-        console.log('New socket is connected');
-    });
+    WebSocketContext.init(wss);
     log.info('WebSocket started listening on ws://localhost:%s ...', port);
 }
