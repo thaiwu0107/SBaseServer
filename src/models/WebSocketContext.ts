@@ -8,7 +8,6 @@ export default class WebSocketContext {
       return WebSocketContext._instance;
     }
     private static _websocket;
-    private static isAlive: any;
     private constructor() {}
     public getWebsocket(): WebSocket.Server {
       return WebSocketContext._websocket;
@@ -16,17 +15,16 @@ export default class WebSocketContext {
     public static init(websocket) {
       WebSocketContext._websocket = websocket;
       websocket.on('connection', (ws, req, head) => {
-        console.log(req.connection.remoteAddress);
+        _log.info('connection', req.connection.remoteAddress);
         ws.on('disconnect', (code: number, reason: string): void => {
             _log.info('disconnect');
         });
         ws.on('error', (err: Error) => {
             _log.error('error', err);
-            throw err;
         });
       });
       websocket.setMiddleware('onPublish', (channel: string, data: any): void => {
-        _log.info('data', data);
+        _log.info('onPublish', data);
       });
     }
 }
