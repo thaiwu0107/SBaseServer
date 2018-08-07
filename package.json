@@ -22,7 +22,7 @@
         "TypeScript"
     ],
     "author": "ThaiWu",
-    "license": "ISC",
+    "license": "MIT",
     "dependencies": {
         "@types/validator": "9.4.1",
         "bignumber.js": "7.2.1",
