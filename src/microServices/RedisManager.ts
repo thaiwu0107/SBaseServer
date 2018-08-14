@@ -8,8 +8,7 @@ import RedisContext from '../models/RedisContext';
 const _log = log4js.getLogger('RedisManger');
 @provide('RedisManger')
 export default class RedisManger {
-    // tslint:disable-next-line:max-line-length
-    private redis: IORedis.Redis = RedisContext.getInstance().getRedis();
+    private redis: IORedis.Redis = RedisContext.getInstance().getRedis() as any;
     public async set(k: string, v: any, ex?: number) {
         if (_.isUndefined(ex)) {
             return this.redis.set(k, v);
@@ -23,5 +22,25 @@ export default class RedisManger {
     }
     public async incr(k: string) {
         return this.redis.incr(k);
+    }
+    public async getMatchKeys(match?: string, perElements = 300): Promise<string[]> {
+        let keys = [];
+        const matchObj = {
+            // only returns keys following the pattern of `user:*`
+            match: match + '*',
+            // returns approximately 100 elements per call
+            count: perElements
+        };
+        return new Promise((resolve, reject) => {
+            RedisContext.getInstance().getallMasters().forEach((node: any) => {
+                const stream = node.scanStream(matchObj);
+                stream.on('data', (resultKeys) => {
+                    keys = _.concat(keys, resultKeys);
+                });
+                stream.on('end', () => {
+                    resolve(keys);
+                });
+            });
+        }) as Promise<string[]>;
     }
 }

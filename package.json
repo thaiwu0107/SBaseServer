@@ -30,13 +30,14 @@
         "clusterws": "^3.2.0",
         "cors": "2.8.4",
         "find-up": "3.0.0",
+        "hiredis": "^0.5.0",
         "inversify": "^4.13.0",
         "inversify-binding-decorators": "4.0.0",
         "inversify-koa-utils": "1.0.0",
         "inversify-logger-middleware": "3.1.0",
         "inversify-socket-utils": "^1.0.1",
         "inversify-tracer": "1.2.0",
-        "ioredis": "^3.2.2",
+        "ioredis": "^4.0.0-3",
         "jsonwebtoken": "8.3.0",
         "klaw": "3.0.0",
         "koa": "2.5.2",
@@ -56,10 +57,8 @@
         "mysql2": "^1.6.1",
         "reflect-metadata": "^0.1.12",
         "request": "^2.88.0",
-        "socket.io": "^2.1.1",
         "uuid-with-v6": "1.1.2",
-        "validator": "10.5.0",
-        "ws": "6.0.0"
+        "validator": "10.5.0"
     },
     "devDependencies": {
         "@types/chai": "4.1.4",
