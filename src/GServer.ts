@@ -5,7 +5,6 @@ import { Middleware } from 'koa';
 import * as bodyParser from 'koa-bodyparser';
 import * as jwt from 'koa-jwt';
 import * as log4js from 'koa-log4';
-// import * as multer from 'koa-multer';
 import * as Router from 'koa-router';
 import * as cors from 'koa2-cors';
 import * as _ from 'lodash';
@@ -14,7 +13,7 @@ import { container } from './ioc/ioc';
 import IocTracer from './ioc/iocTracer';
 import koaLog4js from './middlewares/logger/log4js';
 import { ORMContext } from './models';
-import GamaResponse from './models/BaseResponse';
+import BaseResponse from './models/BaseResponse';
 import HttpInitSetting from './models/HttpInitSetting';
 import IServerInitOnceEvent from './ServerEvent/ServerInitOnceEvent';
 
@@ -74,7 +73,7 @@ export default class GServer {
                         try {
                             await next();
                         } catch (err) {
-                            const response = new GamaResponse(err.message);
+                            const response = new BaseResponse(err.message);
                             const statusArray = _.map(_.toString(err.status));
                             if (_.size(statusArray) === 4 &&
                                 statusArray[0] in ['8', '9', '7', '6', '5', '4', '3', '2', '1', '0']) {

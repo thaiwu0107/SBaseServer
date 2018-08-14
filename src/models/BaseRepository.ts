@@ -1,26 +1,23 @@
 import 'reflect-metadata';
 
-import { injectable, unmanaged } from 'inversify';
+import { injectable } from 'inversify';
 import * as log4js from 'koa-log4';
 import * as _ from 'lodash';
-
 import { BaseHttpStatusCode } from '../config/BaseHttpStatusCode';
 import APIManager from '../microServices/APIManager';
-import SQLManager from '../microServices/SQLManager';
-import GamaUtils from '../utils/BaseUtils';
-import GamaEntity from './BaseEntity';
+import GRPCManger from '../microServices/GRPCManager';
+import MySqlManger from '../microServices/MySqlManager';
+import RedisManger from '../microServices/RedisManager';
+import BaseUtils from '../utils/BaseUtils';
 import { LibsExceptions } from './LibsExceptions';
 
 @injectable()
-export default abstract class GamaRepository<T> {
+export default abstract class BaseRepository {
     protected _log = log4js.getLogger(this.constructor.name);
-    protected abstract setPath(): any;
     protected apiManager: APIManager = new APIManager();
-    protected sqlManager: SQLManager<T> = new SQLManager<T>();
-    constructor(@unmanaged() sqlType) {
-        this.sqlManager.rootPath = this.setPath();
-        this.sqlManager.sqlType = sqlType;
-    }
+    protected sqlManager: MySqlManger = new MySqlManger();
+    protected grpcManager: GRPCManger = new GRPCManger();
+    protected redisManger: RedisManger = new RedisManger();
     /**
      * 取得系統時間(from DB)
      *
@@ -40,7 +37,7 @@ export default abstract class GamaRepository<T> {
      * @memberOf BaseRepository
      */
     public async getDBCurrentTimeString(): Promise<string> {
-        return GamaUtils.DBTimeFormat(await this.sqlManager.getDBCurrentTime());
+        return BaseUtils.DBTimeFormat(await this.sqlManager.getDBCurrentTime());
     }
 
     /**
@@ -51,12 +48,12 @@ export default abstract class GamaRepository<T> {
      *
      * @memberOf BaseRepository
      */
-    public async deCode(password: Buffer | object): Promise<any> {
+    public async deCode(password: Buffer | object, key?: string): Promise<string> {
         if (_.isBuffer(password)) {
-            return this.sqlManager.deCode(password as Buffer);
+            return this.sqlManager.deCode(password as any, key);
         } else if (_.isObject(password)) {
             const toBeBuffer = new Buffer(password as any, 'binary');
-            return this.sqlManager.deCode(toBeBuffer);
+            return this.sqlManager.deCode(toBeBuffer as any, key);
         } else {
             throw new LibsExceptions(BaseHttpStatusCode.STATUS_FAIL, 'DECODE_PASSWORD_UNDEFIND_TYPE');
         }
@@ -70,22 +67,7 @@ export default abstract class GamaRepository<T> {
      *
      * @memberOf BaseRepository
      */
-    public async enCode(password: string): Promise<string> {
-        return this.sqlManager.enCode(password);
-    }
-
-    /**
-     * 目前暫不使用
-     * @param {BaseEntity} entity
-     * @returns {Promise<any>}
-     * @author Mikeli
-     * @memberOf BaseRepository
-     */
-    public async insert(entity: GamaEntity): Promise<any> {
-        const daoName = entity.getGamaEntityDbName() + '.dao:' + entity.getGamaEntitytableName() as any;
-        return this.sqlManager.insert(
-            daoName, // 從entity 拿到 daoEnum , tableName
-            entity
-        );
+    public async enCode(password: string, key?: string): Promise<Buffer> {
+        return this.sqlManager.enCode(password, key);
     }
 }

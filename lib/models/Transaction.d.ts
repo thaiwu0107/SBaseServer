@@ -1,11 +1,11 @@
 import 'reflect-metadata';
 import { ITransaction } from '.';
-export default class Transaction<T> implements ITransaction {
-    private daoTransName;
+export default class Transaction implements ITransaction {
+    [x: string]: any;
+    private transPromise;
     private trans;
-    constructor(daoTransName: T);
+    constructor(dbName?: string);
     begin(): Promise<any>;
     commit(): Promise<any>;
     rollback(): Promise<any>;
-    getDao(tableName: string): any;
 }

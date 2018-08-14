@@ -1,20 +1,15 @@
-import * as Redis from 'ioredis';
+import * as IORedis from 'ioredis';
 import * as log4js from 'koa-log4';
 import * as _ from 'lodash';
 import 'reflect-metadata';
 import { provide } from '../ioc/ioc';
+import RedisContext from '../models/RedisContext';
 
 const _log = log4js.getLogger('RedisManger');
 @provide('RedisManger')
 export default class RedisManger {
     // tslint:disable-next-line:max-line-length
-    private redis: Redis;
-    private constructor() {
-        // tslint:disable-next-line:max-line-length
-        this.redis = new Redis('redis://h:pcdd8e5327bca3986bb6149fb6bc58104e388b8d1c8ca295cb4cabfaf0407b4b1@ec2-52-5-128-246.compute-1.amazonaws.com:36069');
-        const changePromis: any = this.redis;
-        changePromis.Promise = global.Promise;
-    }
+    private redis: IORedis.Redis = RedisContext.getInstance().getRedis();
     public async set(k: string, v: any, ex?: number) {
         if (_.isUndefined(ex)) {
             return this.redis.set(k, v);

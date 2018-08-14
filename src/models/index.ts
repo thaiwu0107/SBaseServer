@@ -52,5 +52,4 @@ export interface ITransaction {
     begin(): Promise<any>;
     commit(): Promise<any>;
     rollback(): Promise<any>;
-    getDao(tableName: string): any;
 }

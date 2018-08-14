@@ -24,7 +24,7 @@ export declare enum BaseConstant {
      * @constant
      */
     BIRTHDAY_TIME_FORMAT = "YYYY-MM-DD",
-    DB_PASSWORD_KEY = "a2R0c1A8d8I0a1",
+    DB_PASSWORD_KEY = "ta2Rh0ca1A8d8iI0a1",
     OPCARD_MAGIC_NUMBER = 1397,
     OPCARD_MAGIC_PAIR_NUMBER = 53,
     OPCARD_PRINTER_HEAD_EMPTY = ";",

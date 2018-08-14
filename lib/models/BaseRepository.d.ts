@@ -1,14 +1,14 @@
 /// <reference types="node" />
 import 'reflect-metadata';
 import APIManager from '../microServices/APIManager';
-import SQLManager from '../microServices/SQLManager';
-import GamaEntity from './BaseEntity';
-export default abstract class GamaRepository<T> {
+import GRPCManger from '../microServices/GRPCManager';
+import MySqlManger from '../microServices/MySqlManager';
+export default abstract class BaseRepository {
     protected _log: any;
     protected abstract setPath(): any;
     protected apiManager: APIManager;
-    protected sqlManager: SQLManager<T>;
-    constructor(sqlType: any);
+    protected sqlManager: MySqlManger;
+    protected grpcManager: GRPCManger;
     /**
      * 取得系統時間(from DB)
      *
@@ -33,7 +33,7 @@ export default abstract class GamaRepository<T> {
      *
      * @memberOf BaseRepository
      */
-    deCode(password: Buffer | object): Promise<any>;
+    deCode(password: Buffer | object, key?: string): Promise<string>;
     /**
      * password加密 (use DB)
      *
@@ -42,13 +42,5 @@ export default abstract class GamaRepository<T> {
      *
      * @memberOf BaseRepository
      */
-    enCode(password: string): Promise<string>;
-    /**
-     * 目前暫不使用
-     * @param {BaseEntity} entity
-     * @returns {Promise<any>}
-     * @author Mikeli
-     * @memberOf BaseRepository
-     */
-    insert(entity: GamaEntity): Promise<any>;
+    enCode(password: string, key?: string): Promise<Buffer>;
 }
