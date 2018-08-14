@@ -1,8 +1,8 @@
 import 'reflect-metadata';
 export default class RedisManger {
     private redis;
-    private constructor();
-    set(k: string, v: any, ex?: number): Promise<any>;
-    get(k: string): Promise<any>;
-    incr(k: string): Promise<any>;
+    set(k: string, v: any, ex?: number): Promise<string | 0 | 1>;
+    get(k: string): Promise<string>;
+    incr(k: string): Promise<number>;
+    getMatchKeys(match?: string, perElements?: number): Promise<string[]>;
 }

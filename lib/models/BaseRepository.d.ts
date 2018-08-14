@@ -3,12 +3,13 @@ import 'reflect-metadata';
 import APIManager from '../microServices/APIManager';
 import GRPCManger from '../microServices/GRPCManager';
 import MySqlManger from '../microServices/MySqlManager';
+import RedisManger from '../microServices/RedisManager';
 export default abstract class BaseRepository {
     protected _log: any;
-    protected abstract setPath(): any;
     protected apiManager: APIManager;
     protected sqlManager: MySqlManger;
     protected grpcManager: GRPCManger;
+    protected redisManger: RedisManger;
     /**
      * 取得系統時間(from DB)
      *
