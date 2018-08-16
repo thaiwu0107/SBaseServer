@@ -1,6 +1,6 @@
 {
     "name": "@ggttoo44/base-server",
-    "version": "0.0.29",
+    "version": "0.0.34",
     "description": "API Server used TypeScript",
     "main": "./lib/index.js",
     "types": "./lib/index.d.ts",
@@ -16,6 +16,10 @@
         "version": "git add -A .",
         "postversion": "git push && git push --tags",
         "build": "rm -rf lib && ./node_modules/.bin/tsc && cp -r ./src/sqlTemplate/ ./lib/sqlTemplate/"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/thaiwu0107/SBaseServer.git"
     },
     "keywords": [
         "RESTful",
@@ -37,7 +41,7 @@
         "inversify-logger-middleware": "3.1.0",
         "inversify-socket-utils": "^1.0.1",
         "inversify-tracer": "1.2.0",
-        "ioredis": "^4.0.0-3",
+        "ioredis": "^4.0.0",
         "jsonwebtoken": "8.3.0",
         "klaw": "3.0.0",
         "koa": "2.5.2",
@@ -72,7 +76,7 @@
         "@types/lodash": "4.14.116",
         "@types/mocha": "5.2.5",
         "@types/mysql": "^2.15.5",
-        "@types/node": "10.7.0",
+        "@types/node": "10.7.1",
         "@types/request": "^2.47.1",
         "@types/ws": "^6.0.0",
         "babel-plugin-istanbul": "^4.1.6",

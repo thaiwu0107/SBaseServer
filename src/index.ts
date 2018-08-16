@@ -35,6 +35,7 @@ import IBaseContext from './models/IBaseContext';
 import { LibsExceptions } from './models/LibsExceptions';
 import MysqlContext from './models/MySqlContext';
 import NotImplemented from './models/NotImplemented';
+import RedisContext from './models/RedisContext';
 import SocketInitSetting from './models/SocketInitSetting';
 import Transaction from './models/Transaction';
 import IServerInitOnceEvent from './ServerEvent/ServerInitOnceEvent';
@@ -46,6 +47,7 @@ import { IQueryOptions } from './utils/DaoOperator';
 import { Init, Worker } from './WSServer';
 
 export {
+    RedisContext,
     IocTracer,
     cors,
     Router,

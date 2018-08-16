@@ -30,6 +30,7 @@ export default class RedisContext {
         RedisContext.instance.allAll = RedisContext.instance.redis.nodes('all');
         RedisContext.instance.allSlaves = RedisContext.instance.redis.nodes('slave');
         RedisContext.instance.allMasters = RedisContext.instance.redis.nodes('master');
+        log.info(`RedisContext is ready.`);
     }
     private constructor() { }
 

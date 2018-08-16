@@ -327,7 +327,6 @@ export default class SQLManager<T> {
      */
     public async deCode(password: Buffer, sqlKey = BaseConstant.DB_PASSWORD_KEY): Promise<any> {
         const daoName = ORMContext.getConnectionNames()[0];
-        console.log('thho', daoName);
         const rep = await this.sysExecTemplate(
             daoName + '.sqlexec' as any,
             'DecryptbypassphrasePassword.sql', {
