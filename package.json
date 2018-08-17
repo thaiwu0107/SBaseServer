@@ -1,6 +1,6 @@
 {
     "name": "@ggttoo44/base-server",
-    "version": "0.0.34",
+    "version": "0.0.35",
     "description": "API Server used TypeScript",
     "main": "./lib/index.js",
     "types": "./lib/index.d.ts",
@@ -34,7 +34,6 @@
         "clusterws": "^3.2.0",
         "cors": "2.8.4",
         "find-up": "3.0.0",
-        "hiredis": "^0.5.0",
         "inversify": "^4.13.0",
         "inversify-binding-decorators": "4.0.0",
         "inversify-koa-utils": "1.0.0",
@@ -62,7 +61,7 @@
         "reflect-metadata": "^0.1.12",
         "request": "^2.88.0",
         "uuid-with-v6": "1.1.2",
-        "validator": "10.5.0"
+        "validator": "10.6.0"
     },
     "devDependencies": {
         "@types/chai": "4.1.4",

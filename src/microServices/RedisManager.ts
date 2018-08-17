@@ -959,4 +959,365 @@ export default class RedisManger {
     public async multiPipeline(commands?: string[][], options?: IORedis.MultiOptions) {
         return this.redis.multi(commands, options);
     }
+    /**
+     * ZADD key score member [[score member] [score member] ...]
+     * 将一个或多个 member 元素及其 score 值加入到有序集 key 当中
+     * 如果某个 member 已经是有序集的成员，那么更新这个 member 的 score 值，并通过重新插入这个 member 元素，来保证该 member 在正确的位置上
+     * score 值可以是整数值或双精度浮点数
+     * 如果key不存在，則創建一個空的有序集並執行ZADD操作
+     * 當key存在但不是有序集類型時，返回一個錯誤
+     * @param {string} key
+     * @param {...string[]} args
+     * @returns 被成功添加的新成员的数量，不包括那些被更新的、已经存在的成员
+     * @memberof RedisManger
+     */
+    public async zadd(key: string, ...args: string[]) {
+        return this.redis.zadd(key, ...args);
+    }
+    /**
+     * ZCARD key
+     * 返回有序集 key 的基数
+     *
+     * @param {string} key
+     * @returns 当 key 存在且是有序集类型时，返回有序集的基数, 当 key 不存在时，返回 0
+     * @memberof RedisManger
+     */
+    public async zcard(key: string) {
+        return this.redis.zcard(key);
+    }
+    /**
+     * ZCOUNT key min max
+     * 返回有序集 key 中， score 值在 min 和 max 之间(默认包括 score 值等于 min 或 max )的成员的数量
+     * 关于参数 min 和 max 的详细使用方法，请参考 ZRANGEBYSCORE 命令
+     * @param {string} key
+     * @param {(number | string)} min
+     * @param {(number | string)} max
+     * @returns score 值在 min 和 max 之间的成员的数量
+     * @memberof RedisManger
+     */
+    public async zcount(key: string, min: number | string, max: number | string) {
+        return this.redis.zcount(key, min, max);
+    }
+    /**
+     * ZINCRBY key increment member
+     * 為有序集key的成員member的score值加上增量increment
+     * 可以通过传递一个负数值 increment ，让 score 减去相应的值，比如 ZINCRBY key -5 member ，就是让 member 的 score 值减去 5
+     * 当 key 不存在，或 member 不是 key 的成员时， ZINCRBY key increment member 等同于 ZADD key increment member
+     * 當key不是有序集類型時，返回一個錯誤
+     * increment 值可以是整數值或雙精度浮點數
+     * @param {string} key
+     * @param {number} increment
+     * @param {string} member
+     * @returns member成員的新score值，以字符串形式表示
+     * @memberof RedisManger
+     */
+    public async zincrby(key: string, increment: number, member: string) {
+        return this.redis.zincrby(key, increment, member);
+    }
+    /**
+     * ZRANGE key start stop
+     * 返回有序集 key 中，指定区间内的成员
+     * 其中成员的位置按 score 值递增(从小到大)来排序
+     * 具有相同 score 值的成员按字典序(lexicographical order )来排列 https://zh.wikipedia.org/wiki/%E5%AD%97%E5%85%B8%E5%BA%8F
+     * 如果你需要成员按 score 值递减(从大到小)来排列，请使用 ZREVRANGE 命令
+     * 下标参数 start 和 stop 都以 0 为底，也就是说，以 0 表示有序集第一个成员，以 1 表示有序集第二个成员，以此类推
+     * 你也可以使用负数下标，以 -1 表示最后一个成员， -2 表示倒数第二个成员，以此类推
+     * 超出范围的下标并不会引起错误
+     *
+     * 比如说，当 start 的值比有序集的最大下标还要大，或是 start > stop 时， ZRANGE 命令只是简单地返回一个空列表
+     * 另一方面，假如 stop 参数的值比有序集的最大下标还要大，那么 Redis 将 stop 当作最大下标来处理
+     * @param {string} key
+     * @param {number} start
+     * @param {number} stop
+     * @returns 指定区间内，的有序集成员的列表
+     * @memberof RedisManger
+     */
+    public async zrange(key: string, start: number, stop: number) {
+        return this.redis.zrange(key, start, stop);
+    }
+    /**
+     * ZRANGE key start stop
+     * 返回有序集 key 中，指定区间内的成员
+     * 其中成员的位置按 score 值递增(从小到大)来排序
+     * 具有相同 score 值的成员按字典序(lexicographical order )来排列 https://zh.wikipedia.org/wiki/%E5%AD%97%E5%85%B8%E5%BA%8F
+     * 如果你需要成员按 score 值递减(从大到小)来排列，请使用 ZREVRANGE 命令
+     * 下标参数 start 和 stop 都以 0 为底，也就是说，以 0 表示有序集第一个成员，以 1 表示有序集第二个成员，以此类推
+     * 你也可以使用负数下标，以 -1 表示最后一个成员， -2 表示倒数第二个成员，以此类推
+     * 超出范围的下标并不会引起错误
+     *
+     * 比如说，当 start 的值比有序集的最大下标还要大，或是 start > stop 时， ZRANGE 命令只是简单地返回一个空列表
+     * 另一方面，假如 stop 参数的值比有序集的最大下标还要大，那么 Redis 将 stop 当作最大下标来处理
+     *
+     * 可以通过使用 WITHSCORES 选项，来让成员和它的 score 值一并返回，返回列表以 value1,score1, ..., valueN,scoreN 的格式表示
+     * 客户端库可能会返回一些更复杂的数据类型，比如数组、元组等
+     * @param {string} key
+     * @param {number} start
+     * @param {number} stop
+     * @returns 指定区间内，带有 score 值(可选)的有序集成员的列表
+     * @memberof RedisManger
+     */
+    public async zrangeWithScores(key: string, start: number, stop: number) {
+        return this.redis.zrange(key, start, stop, 'WITHSCORES');
+    }
+    /**
+     * ZRANGEBYSCORE key min max [WITHSCORES] [LIMIT offset count]
+     * 返回有序集 key 中，所有 score 值介于 min 和 max 之间(包括等于 min 或 max )的成员。有序集成员按 score 值递增(从小到大)次序排列
+     * 具有相同 score 值的成员按字典序(lexicographical order)来排列(该属性是有序集提供的，不需要额外的计算)
+     * https://zh.wikipedia.org/wiki/%E5%AD%97%E5%85%B8%E5%BA%8F
+     *
+     * 可选的 LIMIT 参数指定返回结果的数量及区间(就像SQL中的 SELECT LIMIT offset, count )
+     * 注意当 offset 很大时，定位 offset 的操作可能需要遍历整个有序集，此过程最坏复杂度为 O(N) 时间
+     *
+     * 可选的 WITHSCORES 参数决定结果集是单单返回有序集的成员，还是将有序集成员及其 score 值一起返回
+     * min 和 max 可以是 -inf 和 +inf ，这样一来，你就可以在不知道有序集的最低和最高 score 值的情况下，使用 ZRANGEBYSCORE 这类命令
+     * 默认情况下，区间的取值使用闭区间 (小于等于或大于等于)，你也可以通过给参数前增加 ( 符号来使用可选的开区间 (小于或大于)
+     *
+     * 举个例子:
+     * 1.
+     * ZRANGEBYSCORE key (1 5
+     * 返回所有符合条件 1 < score <= 5 的成员
+     *
+     * 2.
+     * ZRANGEBYSCORE key (5 (10
+     * 则返回所有符合条件 5 < score < 10 的成员
+     * @param {string} key
+     * @param {(number | string)} min
+     * @param {(number | string)} max
+     * @param {...string[]} args
+     * @returns 指定区间内，带有 score 值(可选)的有序集成员的列表
+     * @memberof RedisManger
+     */
+    public async zrangebyscore(key: string, min: number | string, max: number | string, ...args: string[]) {
+        return this.redis.zrangebyscore(key, min, max, ...args);
+    }
+    /**
+     * ZRANK key member
+     * 返回有序集 key 中成员 member 的排名。其中有序集成员按 score 值递增(从小到大)顺序排列
+     * 排名以 0 为底，也就是说， score 值最小的成员排名为 0
+     * 使用 ZREVRANK 命令可以获得成员按 score 值递减(从大到小)排列的排名
+     * @param {string} key
+     * @param {string} member
+     * @returns 如果 member 是有序集 key 的成员，返回 member 的排名, 如果 member 不是有序集 key 的成员，返回 nil
+     * @memberof RedisManger
+     */
+    public async zrank(key: string, member: string) {
+        return this.redis.zrank(key, member);
+    }
+    /**
+     * ZREM key member [member ...]
+     * 移除有序集 key 中的一个或多个成员，不存在的成员将被忽略
+     * 当 key 存在但不是有序集类型时，返回一个错误
+     * @param {string} key
+     * @param {...any[]} members
+     * @returns
+     * @memberof RedisManger
+     */
+    public async zrem(key: string, ...members: any[]) {
+        return this.redis.zrem(key, ...members);
+    }
+    /**
+     * ZREMRANGEBYRANK key start stop
+     * 移除有序集 key 中，指定排名(rank)区间内的所有成员
+     * 区间分别以下标参数 start 和 stop 指出，包含 start 和 stop 在内
+     * 下标参数 start 和 stop 都以 0 为底，也就是说，以 0 表示有序集第一个成员，以 1 表示有序集第二个成员，以此类推
+     * 你也可以使用负数下标，以 -1 表示最后一个成员， -2 表示倒数第二个成员，以此类推
+     * @param {string} key
+     * @param {number} start
+     * @param {number} stop
+     * @returns 被移除成员的数量
+     * @memberof RedisManger
+     */
+    public async zremrangebyrank(key: string, start: number, stop: number): Promise<number> {
+        return this.redis.zremrangebyrank(key, start, stop);
+    }
+    /**
+     * ZREMRANGEBYSCORE key min max
+     * 移除有序集 key 中，所有 score 值介于 min 和 max 之间(包括等于 min 或 max )的成员
+     * score 值等于 min 或 max 的成员也可以不包括在内，详情请参见 ZRANGEBYSCORE 命令
+     * http://redisdoc.com/sorted_set/zrangebyscore.html#zrangebyscore
+     * @param {string} key
+     * @param {(number | string)} min
+     * @param {(number | string)} max
+     * @returns {Promise<number>} 被移除成员的数量
+     * @memberof RedisManger
+     */
+    public async zremrangebyscore(key: string, min: number | string, max: number | string): Promise<number> {
+        return this.redis.zremrangebyscore(key, min, max);
+    }
+    /**
+     * ZREVRANGE key start stop
+     * 返回有序集 key 中，指定区间内的成员
+     * 其中成员的位置按 score 值递减(从大到小)来排列
+     * 具有相同 score 值的成员按字典序的逆序(reverse lexicographical order)排列
+     * https://zh.wikipedia.org/wiki/%E5%AD%97%E5%85%B8%E5%BA%8F
+     *
+     * 除了成员按 score 值递减的次序排列这一点外， ZREVRANGE 命令的其他方面和 ZRANGE 命令一样
+     * @param {string} key
+     * @param {number} start
+     * @param {number} stop
+     * @returns 指定区间内，带有 score 值(可选)的有序集成员的列表
+     * @memberof RedisManger
+     */
+    public async zrevrange(key: string, start: number, stop: number) {
+        return this.redis.zrevrange(key, start, stop);
+    }
+    /**
+     * ZREVRANGE key start stop [WITHSCORES]
+     * 返回有序集 key 中，指定区间内的成员
+     * 其中成员的位置按 score 值递减(从大到小)来排列
+     * 具有相同 score 值的成员按字典序的逆序(reverse lexicographical order)排列
+     * https://zh.wikipedia.org/wiki/%E5%AD%97%E5%85%B8%E5%BA%8F
+     *
+     * 除了成员按 score 值递减的次序排列这一点外， ZREVRANGE 命令的其他方面和 ZRANGE 命令一样
+     * @param {string} key
+     * @param {number} start
+     * @param {number} stop
+     * @returns 指定区间内，带有 score 值(可选)的有序集成员的列表
+     * @memberof RedisManger
+     */
+    public async zrevrangeWithScores(key: string, start: number, stop: number) {
+        return this.redis.zrevrange(key, start, stop, 'WITHSCORES');
+    }
+    /**
+     * ZREVRANGEBYSCORE key max min [WITHSCORES] [LIMIT offset count]
+     * 返回有序集 key 中， score 值介于 max 和 min 之间(默认包括等于 max 或 min )的所有的成员。
+     * 有序集成员按 score 值递减(从大到小)的次序排列
+     * 具有相同 score 值的成员按字典序的逆序(reverse lexicographical order )排列
+     * https://zh.wikipedia.org/wiki/%E5%AD%97%E5%85%B8%E5%BA%8F
+     *
+     * 除了成员按 score 值递减的次序排列这一点外， ZREVRANGEBYSCORE 命令的其他方面和 ZRANGEBYSCORE 命令一样
+     * @param {string} key
+     * @param {(number | string)} max
+     * @param {(number | string)} min
+     * @param {...string[]} args
+     * @returns 指定区间内，带有 score 值(可选)的有序集成员的列表
+     * @memberof RedisManger
+     */
+    public async zrevrangebyscore(key: string, max: number | string, min: number | string, ...args: string[]) {
+        return this.redis.zrevrangebyscore(key, max, min, ...args);
+    }
+    /**
+     * ZREVRANK key member
+     * 返回有序集 key 中成员 member 的排名。其中有序集成员按 score 值递减(从大到小)排序
+     * 排名以 0 为底，也就是说， score 值最大的成员排名为 0
+     * 使用 ZRANK 命令可以获得成员按 score 值递增(从小到大)排列的排名
+     * @param {string} key
+     * @param {string} member
+     * @returns 如果 member 是有序集 key 的成员，返回 member 的排名, 如果 member 不是有序集 key 的成员，返回 nil
+     * @memberof RedisManger
+     */
+    public async zrevrank(key: string, member: string) {
+        return this.redis.zrevrank(key, member);
+    }
+    /**
+     * ZSCORE key member
+     * 返回有序集 key 中，成员 member 的 score 值
+     * 如果 member 元素不是有序集 key 的成员，或 key 不存在，返回 nil
+     * @param {string} key
+     * @param {string} member
+     * @returns member 成员的 score 值，以字符串形式表示
+     * @memberof RedisManger
+     */
+    public async zscore(key: string, member: string) {
+        return this.redis.zscore(key, member);
+    }
+    /**
+     * ZUNIONSTORE destination numkeys key [key ...] [WEIGHTS weight [weight ...]] [AGGREGATE SUM|MIN|MAX]
+     * 计算给定的一个或多个有序集的并集，其中给定 key 的数量必须以 numkeys 参数指定，并将该并集(结果集)储存到 destination
+     * 默认情况下，结果集中某个成员的 score 值是所有给定集下该成员 score 值之 和
+     *
+     * WEIGHTS
+     * 使用 WEIGHTS 选项，你可以为 每个 给定有序集 分别 指定一个乘法因子(multiplication factor)，每个给定有序集的所有成员的 score 值
+     * 在传递给聚合函数(aggregation function)之前都要先乘以该有序集的因子
+     * 如果没有指定 WEIGHTS 选项，乘法因子默认设置为 1
+     *
+     * AGGREGATE
+     * 使用 AGGREGATE 选项，你可以指定并集的结果集的聚合方式
+     * 默认使用的参数 SUM ，可以将所有集合中某个成员的 score 值之 和 作为结果集中该成员的 score 值；使用参数 MIN ，可以将所有集合
+     * 中某个成员的 最小 score 值作为结果集中该成员的 score 值
+     * 而参数 MAX 则是将所有集合中某个成员的 最大 score 值作为结果集中该成员的 score 值
+     * @param {string} destination
+     * @param {number} numkeys
+     * @param {string} key
+     * @param {...string[]} args
+     * @returns 保存到 destination 的结果集的基数
+     * @memberof RedisManger
+     */
+    public async zunionstore(destination: string, numkeys: number, key: string, ...args: string[]) {
+        return this.redis.zunionstore(destination, numkeys, key, ...args);
+    }
+    /**
+     * ZINTERSTORE destination numkeys key [key ...] [WEIGHTS weight [weight ...]] [AGGREGATE SUM|MIN|MAX]
+     * 计算给定的一个或多个有序集的交集，其中给定 key 的数量必须以 numkeys 参数指定，并将该交集(结果集)储存到 destination
+     * 默认情况下，结果集中某个成员的 score 值是所有给定集下该成员 score 值之和
+     * 关于 WEIGHTS 和 AGGREGATE 选项的描述，参见 ZUNIONSTORE 命令
+     * http://redisdoc.com/sorted_set/zunionstore.html#zunionstore
+     * @param {string} destination
+     * @param {number} numkeys
+     * @param {string} key
+     * @param {...string[]} args
+     * @returns 保存到 destination 的结果集的基数
+     * @memberof RedisManger
+     */
+    public async zinterstore(destination: string, numkeys: number, key: string, ...args: string[]) {
+        return this.redis.zinterstore(destination, numkeys, key, ...args);
+    }
+    /**
+     * MSET key value [key value ...]
+     * 同时设置一个或多个 key-value 对
+     * 如果某个给定 key 已经存在，那么 MSET 会用新值覆盖原来的旧值，如果这不是你所希望的效果
+     * 请考虑使用 MSETNX 命令：它只会在所有给定 key 都不存在的情况下进行设置操作。
+     *
+     * MSET 是一个原子性(atomic)操作，所有给定 key 都会在同一时间内被设置
+     * 某些给定 key 被更新而另一些给定 key 没有改变的情况，不可能发生。
+     * @param {string} key
+     * @param {*} value
+     * @param {...string[]} args
+     * @returns 总是返回 OK (因为 MSET 不可能失败)
+     * @memberof RedisManger
+     */
+    public async mset(key: string, value: any, ...args: string[]) {
+        return this.redis.mset(key, value, ...args);
+    }
+    /**
+     * SETEX key seconds value
+     * 将值 value 关联到 key ，并将 key 的生存时间设为 seconds (以秒为单位)
+     * 如果 key 已经存在， SETEX 命令将覆写旧值
+     * SETEX 是一个原子性(atomic)操作，关联值和设置生存时间两个动作会在同一时间内完成，该命令在 Redis 用作缓存时，非常实用
+     * @param {string} key
+     * @param {number} seconds
+     * @param {*} value
+     * @returns 设置成功时返回 OK, 当 seconds 参数不合法时，返回一个错误
+     * @memberof RedisManger
+     */
+    public async setex(key: string, seconds: number, value: any) {
+        return this.redis.setex(key, seconds, value);
+    }
+    /**
+     * MGET key [key ...]
+     * 返回所有(一个或多个)给定 key 的值
+     * 如果给定的 key 里面，有某个 key 不存在，那么这个 key 返回特殊值 nil 。因此，该命令永不失败
+     * @param {...string[]} keys
+     * @returns 一个包含所有给定 key 的值的列表
+     * @memberof RedisManger
+     */
+    public async mget(...keys: string[]) {
+        return this.redis.mget(...keys);
+    }
+    /**
+     * LINSERT key BEFORE|AFTER pivot value
+     * 将值 value 插入到列表 key 当中，位于值 pivot 之前或之后
+     * 当 pivot 不存在于列表 key 时，不执行任何操作
+     * 当 key 不存在时， key 被视为空列表，不执行任何操作
+     * 如果 key 不是列表类型，返回一个错误
+     * @param {string} key
+     * @param {('BEFORE' | 'AFTER')} direction
+     * @param {string} pivot
+     * @param {*} value
+     * @returns 如果命令执行成功，返回插入操作完成之后，列表的长度, 如果没有找到 pivot ，返回 -1, 如果 key 不存在或为空列表，返回 0
+     * @memberof RedisManger
+     */
+    public async linsert(key: string, direction: 'BEFORE' | 'AFTER', pivot: string, value: any) {
+        return this.redis.linsert(key, direction, pivot, value);
+    }
 }
