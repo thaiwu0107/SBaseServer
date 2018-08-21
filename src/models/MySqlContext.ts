@@ -1,6 +1,7 @@
 import * as log4js from 'koa-log4';
 import * as _ from 'lodash';
-import * as mysql2 from 'mysql2';
+// tslint:disable-next-line:no-submodule-imports
+import * as mysql2 from 'mysql2/promise';
 import { promisify } from 'util';
 import { LibsExceptions } from './LibsExceptions';
 
@@ -33,8 +34,9 @@ export default class MysqlContext {
     }
 
     public async getBean(dbname: string) {
-        if (!_.isUndefined(MysqlContext.instance.mysqlPoolList[dbname])) {
-            return MysqlContext.instance.mysqlPoolList[dbname].getConnection();
+        const pool = MysqlContext.instance.mysqlPoolList[dbname];
+        if (!_.isUndefined(pool)) {
+            return pool.getConnection();
         } else {
             log.error(` MysqlContext.instance.mysqlPoolList[${dbname}] isUndefined`);
             throw new LibsExceptions(9001, ` MysqlContext.instance.mysqlPoolList[${dbname}] isUndefined`);

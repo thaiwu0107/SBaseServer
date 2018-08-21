@@ -23,6 +23,7 @@ import AnyEntity from './models/AnyEntity';
 import BaseController from './models/BaseController';
 import BaseEntity from './models/BaseEntity';
 import BaseExceptions from './models/BaseExceptions';
+import BaseRedisHashZntity from './models/BaseRedisHashZntity';
 import BaseRepository from './models/BaseRepository';
 import BaseResponse from './models/BaseResponse';
 import BaseService from './models/BaseService';
@@ -47,6 +48,7 @@ import { IQueryOptions } from './utils/DaoOperator';
 import { Init, Worker } from './WSServer';
 
 export {
+    BaseRedisHashZntity,
     RedisContext,
     IocTracer,
     cors,

@@ -261,4 +261,40 @@ export default class BaseUtils {
     static getTicketSEValidNum(ticketValidationId: number, ticketSeedSeqNum: number): string;
     private static decimalDigits;
     private static computeCRC16CCITT;
+    /**
+     * Pack an array to an Object
+     *
+     * @param {array} array
+     * @return {object}
+     * @example
+     * ```js
+     * > packObject(['a', 'b', 'c', 'd'])
+     * { a: 'b', c: 'd' }
+     * ```
+     */
+    static packObject(array: any[]): any;
+    /**
+     * Convert an object to an array
+     *
+     * @param {object} obj
+     * @return {array}
+     * @example
+     * ```js
+     * > convertObjectToArray({ a: '1' })
+     * ['a', '1']
+     * ```
+     */
+    static convertObjectToArray(obj: any): any[];
+    /**
+     * Convert a map to an array
+     *
+     * @param {Map} map
+     * @return {array}
+     * @example
+     * ```js
+     * > convertObjectToArray(new Map([[1, '2']]))
+     * [1, '2']
+     * ```
+     */
+    static convertMapToArray(map: Map<any, any>): any[];
 }

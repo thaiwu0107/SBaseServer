@@ -731,4 +731,63 @@ export default class BaseUtils {
         result.writeUInt16BE(crcValue, 0);
         return result;
     }
+    /**
+     * Pack an array to an Object
+     *
+     * @param {array} array
+     * @return {object}
+     * @example
+     * ```js
+     * > packObject(['a', 'b', 'c', 'd'])
+     * { a: 'b', c: 'd' }
+     * ```
+     */
+    public static packObject(array: any[]): any {
+        const result = {};
+        const length = array.length;
+        for (let i = 1; i < length; i += 2) {
+            result[array[i - 1]] = array[i];
+        }
+        return result;
+    }
+    /**
+     * Convert an object to an array
+     *
+     * @param {object} obj
+     * @return {array}
+     * @example
+     * ```js
+     * > convertObjectToArray({ a: '1' })
+     * ['a', '1']
+     * ```
+     */
+    public static convertObjectToArray(obj: any): any[] {
+        const result: any[] = [];
+        const keys: any[] = Object.keys(obj);
+        for (let i = 0, l = keys.length; i < l; i++) {
+            result.push(keys[i], obj[keys[i]]);
+        }
+        return result;
+    }
+    /**
+     * Convert a map to an array
+     *
+     * @param {Map} map
+     * @return {array}
+     * @example
+     * ```js
+     * > convertObjectToArray(new Map([[1, '2']]))
+     * [1, '2']
+     * ```
+     */
+    public static convertMapToArray(map: Map<any, any>): any[] {
+        const result: any[] = [];
+        let pos = 0;
+        map.forEach((value, key) => {
+            result[pos] = key;
+            result[pos + 1] = value;
+            pos += 2;
+        });
+        return result;
+    }
 }

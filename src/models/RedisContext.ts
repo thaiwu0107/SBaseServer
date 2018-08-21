@@ -1,12 +1,13 @@
 import * as IORedis from 'ioredis';
 import * as log4js from 'koa-log4';
 import * as _ from 'lodash';
+import BaseUtils from '../utils/BaseUtils';
 
 const log = log4js.getLogger('RedisContext');
 export default class RedisContext {
 
     private static instance = new RedisContext();
-    private redis: IORedis.Cluster;
+    private redis: any;
     private allMasters: IORedis.Redis[];
     private allSlaves: IORedis.Redis[];
     private allAll: IORedis.Redis[];
@@ -30,6 +31,28 @@ export default class RedisContext {
         RedisContext.instance.allAll = RedisContext.instance.redis.nodes('all');
         RedisContext.instance.allSlaves = RedisContext.instance.redis.nodes('slave');
         RedisContext.instance.allMasters = RedisContext.instance.redis.nodes('master');
+        RedisContext.instance.redis.Command.setArgumentTransformer('hmset', (args) => {
+            if (args.length === 2) {
+                if (typeof Map !== 'undefined' && args[1] instanceof Map) {
+                    // utils is a internal module of ioredis
+                    return [args[0]].concat(BaseUtils.convertMapToArray(args[1]));
+                }
+                if (typeof args[1] === 'object' && args[1] !== null) {
+                    return [args[0]].concat(BaseUtils.convertObjectToArray(args[1]));
+                }
+            }
+            return args;
+        });
+        RedisContext.instance.redis.Command.setReplyTransformer('hgetall', (result) => {
+            if (Array.isArray(result)) {
+                const obj = {};
+                for (let i = 0; i < result.length; i += 2) {
+                    obj[result[i]] = result[i + 1];
+                }
+                return obj;
+            }
+            return result;
+        });
         log.info(`RedisContext is ready.`);
     }
     private constructor() { }
