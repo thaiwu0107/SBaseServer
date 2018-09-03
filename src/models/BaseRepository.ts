@@ -8,6 +8,7 @@ import APIManager from '../microServices/APIManager';
 import GRPCManger from '../microServices/GRPCManager';
 import MySqlManger from '../microServices/MySqlManager';
 import RedisManger from '../microServices/RedisManager';
+import SocketPushManager from '../microServices/SocketPushManager';
 import BaseUtils from '../utils/BaseUtils';
 import { LibsExceptions } from './LibsExceptions';
 
@@ -18,6 +19,7 @@ export default abstract class BaseRepository {
     protected sqlManager: MySqlManger = new MySqlManger();
     protected grpcManager: GRPCManger = new GRPCManger();
     protected redisManger: RedisManger = new RedisManger();
+    protected socketPushManager: SocketPushManager = new SocketPushManager();
     /**
      * 取得系統時間(from DB)
      *

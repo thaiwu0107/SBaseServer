@@ -6,7 +6,7 @@ export default class MySqlManger {
     protected _context: MysqlContext;
     getDBCurrentTime(): Promise<Date>;
     getDBCurrentTimeString(): Promise<string>;
-    query(sqlScript: string, parameters?: any[], trans?: Transaction): Promise<string>;
+    query(sqlScript: string, parameters?: any[], trans?: Transaction): Promise<any[]>;
     enCode(password: string, key?: string): Promise<Buffer>;
     deCode(password: string, key?: string): Promise<string>;
 }

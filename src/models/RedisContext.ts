@@ -14,14 +14,12 @@ export default class RedisContext {
 
     public static async initialize(jsonConfig: IORedis.ClusterNode[]) {
         RedisContext.instance.redis = new IORedis.Cluster(jsonConfig, {
-            enableOfflineQueue: false,
             enableReadyCheck: true,
             clusterRetryStrategy: (times) => {
                 return Math.min(100 + times * 2, 2000);
             },
             scaleReads: 'all',
             redisOptions: {
-                enableOfflineQueue: false,
                 dropBufferSupport: true,
                 enableReadyCheck: true
             }
@@ -31,7 +29,7 @@ export default class RedisContext {
         RedisContext.instance.allAll = RedisContext.instance.redis.nodes('all');
         RedisContext.instance.allSlaves = RedisContext.instance.redis.nodes('slave');
         RedisContext.instance.allMasters = RedisContext.instance.redis.nodes('master');
-        RedisContext.instance.redis.Command.setArgumentTransformer('hmset', (args) => {
+        IORedis.Command.setArgumentTransformer('hmset', (args) => {
             if (args.length === 2) {
                 if (typeof Map !== 'undefined' && args[1] instanceof Map) {
                     // utils is a internal module of ioredis
@@ -43,7 +41,7 @@ export default class RedisContext {
             }
             return args;
         });
-        RedisContext.instance.redis.Command.setReplyTransformer('hgetall', (result) => {
+        IORedis.Command.setReplyTransformer('hgetall', (result) => {
             if (Array.isArray(result)) {
                 const obj = {};
                 for (let i = 0; i < result.length; i += 2) {

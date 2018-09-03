@@ -790,4 +790,7 @@ export default class BaseUtils {
         });
         return result;
     }
+    public static splitToArray(stringNumber: string, splitNumber: number) {
+        return _.split(stringNumber, ',', splitNumber);
+    }
 }

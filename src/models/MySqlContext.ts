@@ -12,20 +12,20 @@ export default class MysqlContext {
     private mysqlPoolList = {};
 
     public static async initialize(jsonConfig: any[]) {
-        jsonConfig.map((dbconfig) => {
+        return Promise.all(jsonConfig.map((dbconfig) => {
             const sql = mysql2.createPool({
                 host: dbconfig.host,
                 user: dbconfig.user,
                 password: dbconfig.password,
                 database: dbconfig.database,
-                connectionLimit: dbconfig.connectionLimit
+                connectionLimit: dbconfig.connectionLimit,
+                waitForConnections: true
             });
-            Promise.resolve(sql).then((res: any) => {
+            return Promise.resolve(sql).then((res: any) => {
                 log.info(`DB Name ${dbconfig.name} => ${dbconfig.host}: ${dbconfig.database} is ready.`);
                 MysqlContext.instance.mysqlPoolList[dbconfig.name] = res;
             });
-            return {};
-        });
+        }));
       }
     private constructor() {}
 
@@ -38,8 +38,8 @@ export default class MysqlContext {
         if (!_.isUndefined(pool)) {
             return pool.getConnection();
         } else {
-            log.error(` MysqlContext.instance.mysqlPoolList[${dbname}] isUndefined`);
-            throw new LibsExceptions(9001, ` MysqlContext.instance.mysqlPoolList[${dbname}] isUndefined`);
+            log.error(`MysqlContext.instance.mysqlPoolList[${dbname}] isUndefined`);
+            throw new LibsExceptions(9001, `MysqlContext.instance.mysqlPoolList[${dbname}] isUndefined`);
         }
     }
 }

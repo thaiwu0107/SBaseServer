@@ -297,4 +297,5 @@ export default class BaseUtils {
      * ```
      */
     static convertMapToArray(map: Map<any, any>): any[];
+    static splitToArray(stringNumber: string, splitNumber: number): string[];
 }

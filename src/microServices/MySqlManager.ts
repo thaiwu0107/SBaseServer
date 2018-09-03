@@ -13,23 +13,25 @@ export default class MySqlManger {
     public async getDBCurrentTime(): Promise<Date> {
         const sql = await this._context.getBean('main');
         const dbTime = await sql.query('select now() as time limit 1');
+        sql.release();
         return moment(dbTime[0][0].time).toDate();
     }
 
     public async getDBCurrentTimeString(): Promise<string> {
         const sql = await this._context.getBean('main');
         const dbTime = await sql.query('select now() as time limit 1');
+        sql.release();
         return dbTime[0][0].time;
     }
 
-    public async query(sqlScript: string, parameters?: any[], trans?: Transaction): Promise<string> {
+    public async query(sqlScript: string, parameters?: any[], trans?: Transaction): Promise<any[]> {
         if (_.isUndefined(trans)) {
             const sql = await this._context.getBean('main');
             const res = await sql.query(sqlScript, parameters);
             sql.release();
             return res[0];
         } else {
-            const res = await trans.query(sqlScript, parameters);
+            const res = await (trans as any).conn.query(sqlScript, parameters);
             return res[0];
         }
     }

@@ -1,7 +1,177 @@
 /// <reference types="node" />
+/// <reference types="mocha" />
 import * as IORedis from 'ioredis';
 import 'reflect-metadata';
 import GEOEntity from '../models/GEOEntity';
+interface Pipeline {
+    redis: IORedis.Redis;
+    isCluster: boolean;
+    options: IORedis.RedisOptions;
+    _queue: IORedis.Command[];
+    _result: any[];
+    _transactions: number;
+    _shaToScript: {};
+    bitcount(key: string, callback?: (err: Error, res: number) => void): Pipeline;
+    bitcount(key: string, start: number, end: number, callback?: (err: Error, res: number) => void): Pipeline;
+    get(key: string, callback?: (err: Error, res: string) => void): Pipeline;
+    set(key: string, value: any, callback?: (err: Error, res: string) => void): Pipeline;
+    set(key: string, value: any, setMode: string, callback?: (err: Error, res: string) => void): Pipeline;
+    set(key: string, value: any, expiryMode: string, time: number, callback?: (err: Error, res: string) => void): Pipeline;
+    set(key: string, value: any, expiryMode: string, time: number, setMode: string, callback?: (err: Error, res: string) => void): Pipeline;
+    setBuffer(key: string, value: any, callback?: (err: Error, res: Buffer) => void): Pipeline;
+    setBuffer(key: string, value: any, setMode: string, callback?: (err: Error, res: Buffer) => void): Pipeline;
+    setBuffer(key: string, value: any, expiryMode: string, time: number, callback?: (err: Error, res: Buffer) => void): Pipeline;
+    setBuffer(key: string, value: any, expiryMode: string, time: number, setMode: string, callback?: (err: Error, res: Buffer) => void): Pipeline;
+    setnx(key: string, value: any, callback?: (err: Error, res: any) => void): Pipeline;
+    setex(key: string, seconds: number, value: any, callback?: (err: Error, res: any) => void): Pipeline;
+    psetex(key: string, milliseconds: number, value: any, callback?: (err: Error, res: any) => void): Pipeline;
+    append(key: string, value: any, callback?: (err: Error, res: number) => void): Pipeline;
+    strlen(key: string, callback?: (err: Error, res: number) => void): Pipeline;
+    del(...keys: string[]): Pipeline;
+    exists(...keys: string[]): Pipeline;
+    setbit(key: string, offset: number, value: any, callback?: (err: Error, res: number) => void): Pipeline;
+    getbit(key: string, offset: number, callback?: (err: Error, res: number) => void): Pipeline;
+    setrange(key: string, offset: number, value: any, callback?: (err: Error, res: number) => void): Pipeline;
+    getrange(key: string, start: number, end: number, callback?: (err: Error, res: string) => void): Pipeline;
+    substr(key: string, start: number, end: number, callback?: (err: Error, res: string) => void): Pipeline;
+    incr(key: string, callback?: (err: Error, res: number) => void): Pipeline;
+    decr(key: string, callback?: (err: Error, res: number) => void): Pipeline;
+    mget(...keys: string[]): Pipeline;
+    rpush(key: string, ...values: any[]): Pipeline;
+    lpush(key: string, ...values: any[]): Pipeline;
+    rpushx(key: string, value: any, callback?: (err: Error, res: number) => void): Pipeline;
+    lpushx(key: string, value: any, callback?: (err: Error, res: number) => void): Pipeline;
+    linsert(key: string, direction: 'BEFORE' | 'AFTER', pivot: string, value: any, callback?: (err: Error, res: number) => void): Pipeline;
+    rpop(key: string, callback?: (err: Error, res: string) => void): Pipeline;
+    lpop(key: string, callback?: (err: Error, res: string) => void): Pipeline;
+    brpop(...keys: string[]): Pipeline;
+    blpop(...keys: string[]): Pipeline;
+    brpoplpush(source: string, destination: string, timeout: number, callback?: (err: Error, res: any) => void): Pipeline;
+    llen(key: string, callback?: (err: Error, res: number) => void): Pipeline;
+    lindex(key: string, index: number, callback?: (err: Error, res: string) => void): Pipeline;
+    lset(key: string, index: number, value: any, callback?: (err: Error, res: any) => void): Pipeline;
+    lrange(key: string, start: number, stop: number, callback?: (err: Error, res: any) => void): Pipeline;
+    ltrim(key: string, start: number, stop: number, callback?: (err: Error, res: any) => void): Pipeline;
+    lrem(key: string, count: number, value: any, callback?: (err: Error, res: number) => void): Pipeline;
+    rpoplpush(source: string, destination: string, callback?: (err: Error, res: string) => void): Pipeline;
+    sadd(key: string, ...members: any[]): Pipeline;
+    srem(key: string, ...members: any[]): Pipeline;
+    smove(source: string, destination: string, member: string, callback?: (err: Error, res: string) => void): Pipeline;
+    sismember(key: string, member: string, callback?: (err: Error, res: 1 | 0) => void): Pipeline;
+    scard(key: string, callback?: (err: Error, res: number) => void): Pipeline;
+    spop(key: string, callback?: (err: Error, res: any) => void): Pipeline;
+    spop(key: string, count: number, callback?: (err: Error, res: any) => void): Pipeline;
+    srandmember(key: string, callback?: (err: Error, res: any) => void): Pipeline;
+    srandmember(key: string, count: number, callback?: (err: Error, res: any) => void): Pipeline;
+    sinter(...keys: string[]): Pipeline;
+    sinterstore(destination: string, ...keys: string[]): Pipeline;
+    sunion(...keys: string[]): Pipeline;
+    sunionstore(destination: string, ...keys: string[]): Pipeline;
+    sdiff(...keys: string[]): Pipeline;
+    sdiffstore(destination: string, ...keys: string[]): Pipeline;
+    smembers(key: string, callback?: (err: Error, res: any) => void): Pipeline;
+    zadd(key: string, ...args: string[]): Pipeline;
+    zincrby(key: string, increment: number, member: string, callback?: (err: Error, res: any) => void): Pipeline;
+    zrem(key: string, ...members: any[]): Pipeline;
+    zremrangebyscore(key: string, min: number | string, max: number | string, callback?: (err: Error, res: any) => void): Pipeline;
+    zremrangebyrank(key: string, start: number, stop: number, callback?: (err: Error, res: any) => void): Pipeline;
+    zunionstore(destination: string, numkeys: number, key: string, ...args: string[]): Pipeline;
+    zinterstore(destination: string, numkeys: number, key: string, ...args: string[]): Pipeline;
+    zrange(key: string, start: number, stop: number, callback?: (err: Error, res: any) => void): Pipeline;
+    zrange(key: string, start: number, stop: number, withScores: 'WITHSCORES', callback?: (err: Error, res: any) => void): Pipeline;
+    zrevrange(key: string, start: number, stop: number, callback?: (err: Error, res: any) => void): Pipeline;
+    zrevrange(key: string, start: number, stop: number, withScores: 'WITHSCORES', callback?: (err: Error, res: any) => void): Pipeline;
+    zrangebyscore(key: string, min: number | string, max: number | string, ...args: string[]): Pipeline;
+    zrevrangebyscore(key: string, max: number | string, min: number | string, ...args: string[]): Pipeline;
+    zcount(key: string, min: number | string, max: number | string, callback?: (err: Error, res: number) => void): Pipeline;
+    zcard(key: string, callback?: (err: Error, res: number) => void): Pipeline;
+    zscore(key: string, member: string, callback?: (err: Error, res: number) => void): Pipeline;
+    zrank(key: string, member: string, callback?: (err: Error, res: number) => void): Pipeline;
+    zrevrank(key: string, member: string, callback?: (err: Error, res: number) => void): Pipeline;
+    hset(key: string, field: string, value: any, callback?: (err: Error, res: 0 | 1) => void): Pipeline;
+    hsetBuffer(key: string, field: string, value: any, callback?: (err: Error, res: Buffer) => void): Pipeline;
+    hsetnx(key: string, field: string, value: any, callback?: (err: Error, res: 0 | 1) => void): Pipeline;
+    hget(key: string, field: string, callback?: (err: Error, res: string) => void): Pipeline;
+    hgetBuffer(key: string, field: string, callback?: (err: Error, res: Buffer) => void): Pipeline;
+    hmset(key: string, field: string, value: any, ...args: string[]): Pipeline;
+    hmset(key: string, data: any, callback?: (err: Error, res: 0 | 1) => void): Pipeline;
+    hmget(key: string, ...fields: string[]): Pipeline;
+    hincrby(key: string, field: string, increment: number, callback?: (err: Error, res: number) => void): Pipeline;
+    hincrbyfloat(key: string, field: string, increment: number, callback?: (err: Error, res: number) => void): Pipeline;
+    hdel(key: string, ...fields: string[]): Pipeline;
+    hlen(key: string, callback?: (err: Error, res: number) => void): Pipeline;
+    hkeys(key: string, callback?: (err: Error, res: any) => void): Pipeline;
+    hvals(key: string, callback?: (err: Error, res: any) => void): Pipeline;
+    hgetall(key: string, callback?: (err: Error, res: any) => void): Pipeline;
+    hexists(key: string, field: string, callback?: (err: Error, res: 0 | 1) => void): Pipeline;
+    incrby(key: string, increment: number, callback?: (err: Error, res: number) => void): Pipeline;
+    incrbyfloat(key: string, increment: number, callback?: (err: Error, res: number) => void): Pipeline;
+    decrby(key: string, decrement: number, callback?: (err: Error, res: number) => void): Pipeline;
+    getset(key: string, value: any, callback?: (err: Error, res: string) => void): Pipeline;
+    mset(key: string, value: any, ...args: string[]): Pipeline;
+    msetnx(key: string, value: any, ...args: string[]): Pipeline;
+    randomkey(callback?: (err: Error, res: string) => void): Pipeline;
+    select(index: number, callback?: (err: Error, res: string) => void): Pipeline;
+    move(key: string, db: string, callback?: (err: Error, res: 0 | 1) => void): Pipeline;
+    rename(key: string, newkey: string, callback?: (err: Error, res: string) => void): Pipeline;
+    renamenx(key: string, newkey: string, callback?: (err: Error, res: 0 | 1) => void): Pipeline;
+    expire(key: string, seconds: number, callback?: (err: Error, res: 0 | 1) => void): Pipeline;
+    pexpire(key: string, milliseconds: number, callback?: (err: Error, res: 0 | 1) => void): Pipeline;
+    expireat(key: string, timestamp: number, callback?: (err: Error, res: 0 | 1) => void): Pipeline;
+    pexpireat(key: string, millisecondsTimestamp: number, callback?: (err: Error, res: 0 | 1) => void): Pipeline;
+    keys(pattern: string, callback?: (err: Error, res: string[]) => void): Pipeline;
+    dbsize(callback?: (err: Error, res: number) => void): Pipeline;
+    auth(password: string, callback?: (err: Error, res: string) => void): Pipeline;
+    ping(callback?: (err: Error, res: string) => void): Pipeline;
+    ping(message: string, callback?: (err: Error, res: string) => void): Pipeline;
+    echo(message: string, callback?: (err: Error, res: string) => void): Pipeline;
+    save(callback?: (err: Error, res: string) => void): Pipeline;
+    bgsave(callback?: (err: Error, res: string) => void): Pipeline;
+    bgrewriteaof(callback?: (err: Error, res: string) => void): Pipeline;
+    shutdown(save: 'SAVE' | 'NOSAVE', callback?: (err: Error, res: any) => void): Pipeline;
+    lastsave(callback?: (err: Error, res: number) => void): Pipeline;
+    type(key: string, callback?: (err: Error, res: string) => void): Pipeline;
+    multi(callback?: (err: Error, res: string) => void): Pipeline;
+    exec(callback?: (err: Error, res: any) => void): Promise<any>;
+    discard(callback?: (err: Error, res: any) => void): Pipeline;
+    sync(callback?: (err: Error, res: any) => void): Pipeline;
+    flushdb(callback?: (err: Error, res: string) => void): Pipeline;
+    flushall(callback?: (err: Error, res: string) => void): Pipeline;
+    sort(key: string, ...args: string[]): Pipeline;
+    info(callback?: (err: Error, res: any) => void): Pipeline;
+    info(section: string, callback?: (err: Error, res: any) => void): Pipeline;
+    time(callback?: (err: Error, res: any) => void): Pipeline;
+    monitor(callback?: (err: Error, res: NodeJS.EventEmitter) => void): Pipeline;
+    ttl(key: string, callback?: (err: Error, res: number) => void): Pipeline;
+    persist(key: string, callback?: (err: Error, res: 0 | 1) => void): Pipeline;
+    slaveof(host: string, port: number, callback?: (err: Error, res: string) => void): Pipeline;
+    debug(...args: any[]): Pipeline;
+    config(...args: any[]): Pipeline;
+    subscribe(...channels: any[]): Pipeline;
+    unsubscribe(...channels: string[]): Pipeline;
+    psubscribe(...patterns: string[]): Pipeline;
+    punsubscribe(...patterns: string[]): Pipeline;
+    publish(channel: string, message: string, callback?: (err: Error, res: number) => void): Pipeline;
+    watch(...keys: string[]): Pipeline;
+    unwatch(callback?: (err: Error, res: string) => void): Pipeline;
+    cluster(...args: any[]): Pipeline;
+    restore(...args: any[]): Pipeline;
+    migrate(...args: any[]): Pipeline;
+    dump(key: string, callback?: (err: Error, res: string) => void): Pipeline;
+    object(subcommand: string, ...args: any[]): Pipeline;
+    client(...args: any[]): Pipeline;
+    eval(...args: any[]): Pipeline;
+    evalsha(...args: any[]): Pipeline;
+    script(...args: any[]): Pipeline;
+    quit(callback?: (err: Error, res: string) => void): Pipeline;
+    scan(cursor: number, ...args: any[]): Pipeline;
+    sscan(key: string, cursor: number, ...args: any[]): Pipeline;
+    hscan(key: string, cursor: number, ...args: any[]): Pipeline;
+    zscan(key: string, cursor: number, ...args: any[]): Pipeline;
+    pfmerge(destkey: string, ...sourcekeys: string[]): Pipeline;
+    pfadd(key: string, ...elements: string[]): Pipeline;
+    pfcount(...keys: string[]): Pipeline;
+}
 export default class RedisManger {
     private redis;
     /**
@@ -12,6 +182,14 @@ export default class RedisManger {
      * @memberof RedisManger
      */
     set(key: string, value: number | string): Promise<string>;
+    /**
+     * 按造順序執行你串接的命令
+     * 各別命令的文檔接口請參考
+     * @class RedisManger 這個類別或是網路文件
+     * @returns {IORedis.Pipeline}
+     * @memberof RedisManger
+     */
+    pipeline(): Pipeline;
     /**
      * 讓一個key有過期時間 單位是秒
      * @param {string} key
@@ -249,6 +427,15 @@ export default class RedisManger {
      * @memberof RedisManger
      */
     hmsetArray(key: string, fields: any[]): Promise<0 | 1>;
+    /**
+     * HMSET key field1 value1 [field2 value2 ]
+     * 同时将多个 field-value (field1-value1)set到hashMap key 中
+     * @param {string} key
+     * @param {any} obj
+     * @returns {(Promise<0 | 1>)}
+     * @memberof RedisManger
+     */
+    hmsetObject(key: string, obj: any): Promise<0 | 1>;
     /**
      * HSET key field value
      * 将hashMap key 中的字段 field 的值设为 value 。
@@ -772,6 +959,16 @@ export default class RedisManger {
      */
     exec(): Promise<any>;
     /**
+     * EXEC
+     * 执行所有事务块内的命令
+     * 假如某个(或某些) key 正处于 WATCH 命令的监视之下，且事务块中有和这个(或这些) key 相关的命令
+     * 那么 EXEC 命令只在这个(或这些) key 没有被其他命令所改动的情况下执行并生效，否则该事务被打断(abort)
+     * @param {(err: Error, res: any) => void} callback
+     * @returns
+     * @memberof RedisManger
+     */
+    execPipeline(callback: (err: Error, res: any) => void): Promise<void>;
+    /**
      * DISCARD
      * 取消事务，放弃执行事务块内的所有命令
      * 如果正在使用 WATCH 命令监视某个(或某些) key，那么取消所有监视，等同于执行命令 UNWATCH
@@ -780,6 +977,7 @@ export default class RedisManger {
      */
     discard(): Promise<any>;
     /**
+     * (cluster模式下無法使用這個))
      * MULTI
      * 标记一个事务块的开始
      * 事务块内的多条命令会按照先后顺序被放进一个队列当中，最后由 EXEC 命令原子性(atomic)地执行
@@ -791,6 +989,7 @@ export default class RedisManger {
         pipeline: false;
     }): Promise<string>;
     /**
+     * (cluster模式下只能使用這個))
      * (Pipeline)
      * MULTI
      * 标记一个事务块的开始
@@ -1218,3 +1417,4 @@ export default class RedisManger {
      */
     geohash(key: string, member: string, ...members: string[]): Promise<any>;
 }
+export {};

@@ -52,18 +52,16 @@ export default abstract class BaseRedisHashZntity {
             });
             await redisManger.del(...deepValuess);
             let length = deepFelds.length;
-            const changeDeepFelds: any[] = [];
+            const self: any = this;
             while (length--) {
                 const feldskey = deepFelds[length][1] + id;
                 const feldsName = deepFelds[length][0];
                 if (this[feldsName]) {
-                    changeDeepFelds.push(feldsName, this[feldsName]);
+                    self[feldsName] = feldskey;
                     promiseList.push(redisManger.rpush(feldskey, this[feldsName]));
                 }
             }
-            if (_.size(changeDeepFelds) !== 0) {
-                promiseList.push(redisManger.hmgetArray(mainKey, changeDeepFelds));
-            }
+            promiseList.push(redisManger.hmgetArray(mainKey, self));
             await Promise.all(promiseList);
         }
     }
@@ -91,16 +89,14 @@ export default abstract class BaseRedisHashZntity {
             // 並且替換過程中儲存Promise每個deepFelds的成員要塞的數值
             const promiseList: Array<Promise<any>> = [];
             let length = deepFelds.length;
-            const changeDeepFelds: any[] = [];
             while (length--) {
                 const feldskey = deepFelds[length][1] + id;
                 const feldsName = deepFelds[length][0];
                 // 儲存Promise每個deepFelds的成員要塞的數值
                 promiseList.push(redisManger.rpushArray(feldskey, source[feldsName]));
-                changeDeepFelds.push(feldsName, feldskey);
                 source[feldsName] = feldskey;
             }
-            promiseList.push(redisManger.hmsetArray(mainKey, changeDeepFelds));
+            promiseList.push(redisManger.hmsetArray(mainKey, source));
             await Promise.all(promiseList);
         } else {
             throw new LibsExceptions(BaseHttpStatusCode.STATUS_FAIL, this.constructor.name + 'source is undefined');
