@@ -46,15 +46,15 @@ export default class RedisContext {
         });
         IORedis.Command.setReplyTransformer('exec', (result) => {
             if (Array.isArray(result)) {
-                let length = result.length;
+                const size = result.length;
                 const finalData: any[] = [];
-                while (length--) {
-                    const error = result[length][0];
+                for (let index = 0; index < size; index++) {
+                    const error = result[index][0];
                     if (error) {
                         log.error('redis.exec() error: ' + error);
                         throw error;
                     }
-                    finalData.push(result[length][1]);
+                    finalData.push(result[index][1]);
                 }
                 return finalData;
             }
