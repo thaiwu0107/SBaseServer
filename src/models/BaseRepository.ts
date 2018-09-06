@@ -4,22 +4,26 @@ import { injectable } from 'inversify';
 import * as log4js from 'koa-log4';
 import * as _ from 'lodash';
 import { BaseHttpStatusCode } from '../config/BaseHttpStatusCode';
-import APIManager from '../microServices/APIManager';
+import APIManager, { IHTTPSCA } from '../microServices/APIManager';
 import GRPCManger from '../microServices/GRPCManager';
 import MySqlManger from '../microServices/MySqlManager';
 import RedisManger from '../microServices/RedisManager';
-import SocketPushManager from '../microServices/SocketPushManager';
 import BaseUtils from '../utils/BaseUtils';
 import { LibsExceptions } from './LibsExceptions';
 
 @injectable()
 export default abstract class BaseRepository {
     protected _log = log4js.getLogger(this.constructor.name);
-    protected apiManager: APIManager = new APIManager();
-    protected sqlManager: MySqlManger = new MySqlManger();
-    protected grpcManager: GRPCManger = new GRPCManger();
-    protected redisManger: RedisManger = new RedisManger();
-    protected socketPushManager: SocketPushManager = new SocketPushManager();
+    protected apiManager: APIManager;
+    protected sqlManager: MySqlManger;
+    protected grpcManager: GRPCManger;
+    protected redisManger: RedisManger;
+    constructor() {
+        this.apiManager = new APIManager();
+        this.sqlManager = new MySqlManger();
+        this.grpcManager = new GRPCManger();
+        this.redisManger = new RedisManger();
+    }
     /**
      * 取得系統時間(from DB)
      *

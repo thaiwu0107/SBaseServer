@@ -7,19 +7,7 @@ export default class APIManger {
     private patch;
     private post;
     private put;
-    constructor(authData?: {
-        user?: string;
-        pass?: string;
-        bearer?: string;
-        sendImmediately?: boolean;
-    }, cadata?: {
-        certFile?: string;
-        keyFile?: string;
-        ca?: string;
-        passphrase?: string;
-        securityOptions?: string;
-        secureProtocol?: string;
-    });
+    constructor();
     /**
      * httpGet
      */
@@ -160,4 +148,20 @@ export default class APIManger {
         securityOptions?: string;
         secureProtocol?: string;
     }): Promise<any>;
+}
+export interface IHTTPSCA {
+    cadata?: {
+        certFile?: string;
+        keyFile?: string;
+        ca?: string;
+        passphrase?: string;
+        securityOptions?: string;
+        secureProtocol?: string;
+    };
+    authData: {
+        user?: string;
+        pass?: string;
+        bearer?: string;
+        sendImmediately?: boolean;
+    };
 }

@@ -18,6 +18,7 @@ import { SQLServerType } from './config/enum.SQLServerType';
 import GServer from './GServer';
 import { autoProvide, container, inject, provide, provideNamed } from './ioc/ioc';
 import IocTracer from './ioc/iocTracer';
+import { IHTTPSCA } from './microServices/APIManager';
 import AnyEntity from './models/AnyEntity';
 import BaseController from './models/BaseController';
 import BaseEntity from './models/BaseEntity';
@@ -28,6 +29,7 @@ import BaseResponse from './models/BaseResponse';
 import BaseService from './models/BaseService';
 import BaseSocketController from './models/BaseSocketController';
 import BaseUserInfo from './models/BaseUserInfo';
+import CAHttpsContext from './models/CAHttpsContext';
 import { Entity } from './models/Decorators';
 import DocChanged from './models/DocChanged';
 import GHeartbeats from './models/GHeartbeats';
@@ -40,6 +42,7 @@ import RedisContext from './models/RedisContext';
 import SocketInitSetting from './models/SocketInitSetting';
 import Transaction from './models/Transaction';
 import WebSocketContext from './models/WebSocketContext';
+import WsEntity from './models/WsEntity';
 import IServerInitOnceEvent from './ServerEvent/ServerInitOnceEvent';
 import SServer from './SServer';
 import BaseDataHelper from './utils/BaseDataHelper';
@@ -49,6 +52,9 @@ import { IQueryOptions } from './utils/DaoOperator';
 import { Init, Worker } from './WSServer';
 
 export {
+    CAHttpsContext,
+    IHTTPSCA,
+    WsEntity,
     WebSocketContext,
     GHeartbeats,
     BaseRedisHashZntity,

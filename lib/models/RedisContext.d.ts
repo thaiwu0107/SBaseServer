@@ -5,7 +5,11 @@ export default class RedisContext {
     private allMasters;
     private allSlaves;
     private allAll;
-    static initialize(jsonConfig: IORedis.ClusterNode[]): Promise<void>;
+    static initialize(jsonConfig: {
+        port: number;
+        host: string;
+    }): Promise<void>;
+    static initializeCluster(jsonConfig: IORedis.ClusterNode[]): Promise<void>;
     private constructor();
     static getInstance(): RedisContext;
     getRedis(): IORedis.Cluster;

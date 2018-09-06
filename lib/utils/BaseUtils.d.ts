@@ -109,7 +109,6 @@ export default class BaseUtils {
      * @static
      * @param {any} obj
      * @returns
-     * @author Mikeli
      * @memberOf Utils
      */
     static deeplyToCamelCase(obj: any): any;
@@ -118,7 +117,6 @@ export default class BaseUtils {
      * @static
      * @param {any} obj
      * @returns
-     * @author Mikeli
      * @memberOf Utils
      */
     static deeplyToUpperCamelCase(obj: any): any;
@@ -298,4 +296,5 @@ export default class BaseUtils {
      */
     static convertMapToArray(map: Map<any, any>): any[];
     static splitToArray(stringNumber: string, splitNumber: number): string[];
+    static getPipelineData(data: any[][]): any[];
 }

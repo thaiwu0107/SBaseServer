@@ -353,10 +353,6 @@ export default class BaseUtils {
         } else {
             throw new LibsExceptions(BaseHttpStatusCode.STATUS_FAIL, 'Long CardSerial Print Format Fail');
         }
-        // 原始的code有這個判斷,但是....目前看起來是永遠跑不到這個15
-        // else if (iChecksum === 15) {
-        //     return magicString + magneticStripeCode + Constant.OPCARD_PRINTER_BE15END;
-        // }
     }
     public static CardSerialCheckSum(card: string) {
         const cardArray = _.map(card);
@@ -403,7 +399,6 @@ export default class BaseUtils {
      * @static
      * @param {any} obj
      * @returns
-     * @author Mikeli
      * @memberOf Utils
      */
     public static deeplyToCamelCase(obj) {
@@ -424,7 +419,6 @@ export default class BaseUtils {
      * @static
      * @param {any} obj
      * @returns
-     * @author Mikeli
      * @memberOf Utils
      */
     public static deeplyToUpperCamelCase(obj) {
@@ -792,5 +786,10 @@ export default class BaseUtils {
     }
     public static splitToArray(stringNumber: string, splitNumber: number) {
         return _.split(stringNumber, ',', splitNumber);
+    }
+    public static getPipelineData(data: any[][]) {
+        return _.map(data, (oneData) => {
+            return oneData[1];
+        });
     }
 }

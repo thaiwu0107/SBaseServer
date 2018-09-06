@@ -1,6 +1,7 @@
 import * as log4js from 'koa-log4';
 import * as _ from 'lodash';
 import 'reflect-metadata';
+import WsEntity from './WsEntity';
 
 const _log = log4js.getLogger('WebSocketContext');
 export default class WebSocketContext {
@@ -15,5 +16,10 @@ export default class WebSocketContext {
     }
     public static init(websocket) {
         WebSocketContext._instance._websocket = websocket;
+    }
+    public onConnection(fun: (ws, req, head) => void): any {
+        return WebSocketContext._instance._websocket.on('connection', (ws, req, head) => {
+            fun(new WsEntity(ws), req, head);
+        });
     }
 }

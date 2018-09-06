@@ -1,6 +1,6 @@
 {
     "name": "@ggttoo44/base-server",
-    "version": "0.0.57",
+    "version": "0.0.69",
     "description": "API Server used TypeScript",
     "main": "./lib/index.js",
     "types": "./lib/index.d.ts",
@@ -49,7 +49,7 @@
         "koa-bodyparser": "4.2.1",
         "koa-csrf": "3.0.6",
         "koa-helmet": "^4.0.0",
-        "koa-jwt": "3.5.0",
+        "koa-jwt": "3.5.1",
         "koa-log4": "2.3.0",
         "koa-multer": "1.0.2",
         "koa-req-validator": "0.2.1",
@@ -65,7 +65,7 @@
         "request": "^2.88.0",
         "uuid": "^3.3.2",
         "uuid-with-v6": "1.1.2",
-        "validator": "10.7.0"
+        "validator": "10.7.1"
     },
     "devDependencies": {
         "@types/chai": "4.1.4",
@@ -82,7 +82,7 @@
         "@types/mysql": "^2.15.5",
         "@types/node": "10.9.4",
         "@types/request": "^2.47.1",
-        "@types/ws": "^6.0.0",
+        "@types/ws": "^6.0.1",
         "babel-plugin-istanbul": "^5.0.1",
         "chai": "4.1.2",
         "connect": "3.6.6",
@@ -92,7 +92,7 @@
         "gulp": "^4.0.0",
         "husky": "v0.15.0-rc.7",
         "install-peers": "1.0.2",
-        "js-beautify": "1.8.1",
+        "js-beautify": "1.8.4",
         "js-yaml": "3.12.0",
         "jscpd": "0.6.22",
         "lint-staged": "7.2.2",
@@ -110,7 +110,7 @@
         "ts-node": "7.0.1",
         "tslint": "5.11.0",
         "typedoc": "^0.12.0",
-        "typeorm-model-generator": "^0.2.20",
+        "typeorm-model-generator": "^0.2.21",
         "typescript": "3.0.3"
     },
     "lint-staged": {

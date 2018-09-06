@@ -1,25 +1,8 @@
 # Readme
 
-## Install && Start(MAC)
-確定你的網域跟DB連線IP都正常設定
-
-    npm run start:rebuild
-
-## Install && Start(Windows)
-確定你的網域跟DB連線IP都正常設定
-
-    npm install --global --production windows-build-tools typescript ts-node
-    npm i
-    npm run rebuild:context:win
-    ts-node app.ts
-    
-## Tests
-### 單元測試
-    npm test
-### 文件測試(Dredd嚴格測試Response)
-    npm run doctest:dredd
-### 文件測試(Newman測試是否有實作)
-    npm run doctest:newman
+## 這單純只是一套懶人依賴加上整合Libs
+### 目前整合了....直接看 package.json吧
+### 詳細使用方式會再另外的github上做輕微用code看程式,還沒時間寫使用手冊
 
 ## 相關套件
 ### InversifyJS

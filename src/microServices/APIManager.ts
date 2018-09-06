@@ -3,6 +3,7 @@ import * as _ from 'lodash';
 import 'reflect-metadata';
 import { del, get, patch, post, put } from 'request';
 import { promisify } from 'util';
+import CAHttpsContext from '../models/CAHttpsContext';
 
 const _log = log4js.getLogger('APIManger');
 export default class APIManger {
@@ -25,23 +26,12 @@ export default class APIManger {
     private patch;
     private post;
     private put;
-    constructor(
-        authData?: {
-            user?: string,
-            pass?: string,
-            bearer?: string,
-            sendImmediately?: boolean
-        },
-        cadata?: {
-            certFile?: string,
-            keyFile?: string,
-            ca?: string,
-            passphrase?: string,
-            securityOptions?: string,
-            secureProtocol?: string
-        }) {
-        this.agentOptions = _.isUndefined(cadata) ? undefined : _.omitBy(cadata, _.isUndefined);
-        this.auth = _.isUndefined(authData) ? undefined : _.omitBy(authData, _.isUndefined);
+    constructor() {
+        const caData = CAHttpsContext.getInstance().getCA();
+        if (!_.isUndefined(caData)) {
+            this.agentOptions = _.isUndefined(caData.cadata) ? undefined : _.omitBy(caData.cadata, _.isUndefined);
+            this.auth = _.isUndefined(caData.authData) ? undefined : _.omitBy(caData.authData, _.isUndefined);
+        }
         const [getPm, postPm, patchPm, deletePm, putPm] = [get, post, patch, del, put].map(promisify);
         this.get = getPm;
         this.post = postPm;
@@ -323,4 +313,21 @@ export default class APIManger {
         const reqData = _.isUndefined(params) ? baseData : _.assign(baseData, { qs: params });
         return this.del(reqData);
     }
+}
+
+export interface IHTTPSCA {
+    cadata?: {
+        certFile?: string,
+        keyFile?: string,
+        ca?: string,
+        passphrase?: string,
+        securityOptions?: string,
+        secureProtocol?: string
+    };
+    authData: {
+        user?: string,
+        pass?: string,
+        bearer?: string,
+        sendImmediately?: boolean
+    };
 }

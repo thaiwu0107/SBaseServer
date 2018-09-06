@@ -254,7 +254,7 @@ interface Pipeline {
 
     multi(callback?: (err: Error, res: string) => void): Pipeline;
 
-    exec(callback?: (err: Error, res: any) => void): Promise<any>;
+    exec(callback?: (err: Error, res: any) => void): Promise<any[]>;
 
     discard(callback?: (err: Error, res: any) => void): Pipeline;
 
