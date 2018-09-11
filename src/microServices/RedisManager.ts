@@ -1316,8 +1316,8 @@ export default class RedisManger {
      * @returns
      * @memberof RedisManger
      */
-    public async multi(options: { pipeline: false }) {
-        return this.redis.multi(options);
+    public multi(options: { pipeline: false } = { pipeline: false }): Pipeline {
+        return this.redis.multi(options) as any;
     }
     /**
      * (cluster模式下只能使用這個))

@@ -8,8 +8,7 @@ gulp.task('sonar', function(callback) {
       "sonar.sources": "src",
       "sonar.tests": "test",
       "sonar.typescript.lcov.reportPaths": "coverage/lcov.info",
-      "sonar.exclusions": "src/context/**.*,src/tools/**.*",
-      "sonar.coverage.exclusions": "src/context/**.*,src/config/**.*,src/sqlTemplate,src/tools/**.*,src/app.ts,src/models/**.*"
+      "sonar.coverage.exclusions": "src/config/**.*,src/sqlTemplate,src/models/**.*"
     }
   }, callback);
 });

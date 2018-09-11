@@ -14,7 +14,7 @@ export default class SocketPushManager {
      * @returns {Promise<any>}
      * @memberof SocketPushManager
      */
-    public async publishChannel(channel: string, data: any): Promise<any> {
+    public async publishChannel(channel: string, data: any): Promise<void> {
         return this._context.publish(channel, data);
     }
 }
