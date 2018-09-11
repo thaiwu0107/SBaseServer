@@ -11,19 +11,19 @@
     },
     "linterOptions": {
         "exclude": [
-            "src/WSServer.ts/",
+            "dist/**",
             "src/config/",
             "src/context/MemberAckDao.ts",
             "src/context/**/*.ts",
             "src/tools/*.ts",
             "src/sqlTemplate/*.sql",
-            "src/sqlTemplate/*/*.sql",
-            "lib/**"
+            "src/sqlTemplate/*/*.sql"
         ]
     },
     "jsRules": {},
     "rules": {
-        "no-bitwise": false,
+        "align": [true, "statements"],
+        "indent": false,
         "no-return-await": true,
         "no-duplicate-switch-case": true,
         "no-implicit-dependencies": false,
@@ -65,8 +65,9 @@
                 "singleline": "never"
             }
         ],
+        "no-submodule-imports": false,
         "variable-name": [
-            true,
+            false,
             "ban-keywords",
             "check-format",
             "allow-leading-underscore"

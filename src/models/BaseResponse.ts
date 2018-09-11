@@ -1,24 +1,12 @@
-import DocChanged from './DocChanged';
-import IGamaResponse from './IBaseResponse';
-import NotImplemented from './NotImplemented';
+import { BaseResponse } from '@ggttoo44/base-server';
+import Success from './Success';
 
-export default class BaseResponse extends IGamaResponse {
-    private result: any;
+export default class BResponse extends BaseResponse {
 
     constructor(response: any) {
-        super();
-        if (response instanceof NotImplemented || response instanceof DocChanged) {
-            this.$status = response.status;
+        super(response);
+        if (response instanceof Success) {
             this.$result = response.message;
-        } else {
-            this.$result = response;
         }
-    }
-
-    public set $result(value: any) {
-        this.result = value; // Utils.deeplyToCamelCase
-    }
-    public get $result() {
-        return this.result;
     }
 }

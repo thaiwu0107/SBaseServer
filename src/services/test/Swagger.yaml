@@ -1,0 +1,55 @@
+paths:
+  '/test':
+    post:
+      tags:
+        - test
+      summary: test
+      description: test
+      deprecated: false
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            required:
+              - reqData
+            properties:
+              reqData:
+                type: object
+                required:
+                  - playID
+                  - deskID
+                properties:
+                  playID:
+                    description: '玩家帳號'
+                    type: number
+                    default: 2
+                    example: 4
+                  deskID:
+                    description: '桌號'
+                    type: string
+                    default: 'n1'
+                    example: 'n1'
+      responses:
+        '200':
+          description: OK
+          schema:
+            required:
+              - status
+              - result
+            properties:
+              status:
+                type: integer
+                format: int32
+                enum:
+                  - 1
+                  - 8001
+                default: 1
+                example: 1
+              result:
+                properties:
+                    token:
+                      type: string
+                      example: '7c4a8d09ca3762af61e59520943dc26494f8941b'
+                      default: 'null'
